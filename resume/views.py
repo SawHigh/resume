@@ -9,7 +9,7 @@ from django.contrib.auth import login, authenticate
 
 @login_required(login_url=reverse_lazy("login"))
 def resume_list(request):
-    list1 = Resume.objects.all()
+    list1 = Resume.objects.all().order_by("-published_date")
     context = {"list":list1}
     return render(request, "resume_list.html", context)
     
