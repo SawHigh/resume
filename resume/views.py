@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth import login, authenticate
+from utils.apiviews import WebListApiView
 
 @login_required(login_url=reverse_lazy("login"))
 def resume_list(request):
@@ -45,10 +46,10 @@ def resume_delete(request, pk):
     instance.delete()
     return HttpResponseRedirect(reverse('resume_list'))
 
-def resume_show(request):
-    list1 = Resume.objects.all()
-    context = {"list":list1}
-    return render(request, "resume_list.html", context)
+class ResumeApi(WebListApiView):
+    model = Resume
+    def user_pass_test(self, request):
+        return True
 
 def log_in(request):
     if request.method == "POST":
