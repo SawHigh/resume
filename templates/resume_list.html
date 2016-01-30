@@ -5,9 +5,10 @@
 描述:{{i.description|safe}}
    日期: {{i.published_date}}
    链接: <a href="{{i.link}}">自己去睇啦仆街</a>
-   {% if user.is_authenticated %}
+
    <a href="{% url 'resume_update' i.id %}">我改</a>
-   <a href="{% url 'resume_delete' i.id %}">我删</a>
-   
-   {% endif %}
+   <form enctype="multipart/form-data" method="post" action="{% url 'resume_delete' i.id %}">{% csrf_token %}
+	<input type="submit" value="我删"/>
+	</form>
+
 {% endfor %}
