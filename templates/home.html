@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">	
+
+<link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>		
+<script src="{% static 'bower_components/angular/angular.min.js' %}"></script>		
+
+</head>
+<body>
+     <section class="heading">
+     	<div style="padding-left:30px;">
+     	    <h1>Hello!</h1>
+     	    <p>This is my resume</p>
+     	</div>
+     </section>	
+     <div class="container resume">
+  	<div class="col-sm-4 col-sm-push-8">
+  	      <div class="avatar">
+  	      	<img  class="img-circle img-thumbnail" src="{%  static 'img/avatar.png'%}"/>
+  	      </div>
+  	      <div class="panel panel-default sidebar">
+                           	 <ul class="list-group">
+                                       <li class="list-group-item">
+                                    <strong>name</strong>                              
+                                    <p> Job</p>
+                                       </li>
+                                       <li class="list-group-item">
+                                       <p>Email:XXXXXXXXXXX</p>
+                                       <p>address:XXXXXXXXXX</p>
+                                       <p>phone:12345678</p>
+                                       </li>
+                                        <li class="list-group-item">
+                                       <p>Contact me on...</p>
+                                       <p>facebook</p>
+                                       <p>twitter</p>
+                                       <p>g+</p>
+                                       <p>github</p>
+                                       </li>
+                                      </ul>                                   
+                           </div>
+  	</div>
+  	<div class="col-sm-8 col-sm-pull-4 mainContent">
+                     <div class="panel panel-default">
+                           	 <ul class="list-group">
+                                       <li class="list-group-item">
+                                       <h2>INTRODUCTION</h2>                              
+                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu justo quam, sed consectetur felis. Suspendisse sit amet metus viverra magna placerat consequat non vel tellus. Integer dolor leo, facilisis non sollicitudin ut, viverra ac ligula. Proin sed erat tincidunt quam blandit tempor elementum id tortor. Mauris et massa sed arcu pellentesque auctor.
+                                       </li>
+                                       <li class="list-group-item">
+                                    <h2>TECHNICAL SKILLS</h2>                              
+                                     html  js jq angular python
+                                       </li>
+                                       <li class="list-group-item">
+                                      <h2>PROJECTS</h2> 
+                                      <div class="timeline">
+                                            <div class="line"></div>
+                                            <div>
+                                            	<div class="panel panel-primary project">
+                                            	<i class="fa fa-mobile fa-2x"></i>
+                                            	<div class="panel-heading">Panel heading without title</div>
+  			     <div class="panel-body">
+                                                     Panel content
+                                                     </div>
+                                                 <div class="panel-footer">Panel footer</div>
+                                                </div>
+
+                                                <div class="panel panel-primary project">
+                                            	<i class="fa fa-mobile fa-2x"></i>
+                                            	<div class="panel-heading">Panel heading without title</div>
+  			     <div class="panel-body">
+                                                     Panel content
+                                                     </div>
+                                                 <div class="panel-footer">Panel footer</div>
+                                                </div>
+                                                <div class="panel panel-primary project">
+                                            	<i class="fa fa-mobile fa-2x"></i>
+                                            	<div class="panel-heading">Panel heading without title</div>
+  			     <div class="panel-body">
+                                                     Panel content
+                                                     </div>
+                                                 <div class="panel-footer">Panel footer</div>
+                                                </div>
+                                                <div class="panel panel-primary project">
+                                            	<i class="fa fa-mobile fa-2x"></i>
+                                            	<div class="panel-heading">Panel heading without title</div>
+  			     <div class="panel-body">
+                                                     Panel content
+                                                     </div>
+                                                 <div class="panel-footer">Panel footer</div>
+                                                </div>
+                                            </div>
+                                     </div>  
+                                       </li>
+                                       <li class="list-group-item">
+                                       <h2>EDUCATION</h2>                              
+                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu justo quam, sed consectetur felis. Suspendisse sit amet metus viverra magna placerat consequat non vel tellus. Integer dolor leo, facilisis non sollicitudin ut, viverra ac ligula. Proin sed erat tincidunt quam blandit tempor elementum id tortor. Mauris et massa sed arcu pellentesque auctor.
+                                       </li>
+                                      </ul>                                   
+                           </div>
+  	</div>
+     </div>	
+
+</body>
+</html>

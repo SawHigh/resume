@@ -1,0 +1,158 @@
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+.bs-callout code {
+    border-radius: 3px;
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-default {
+    border-left-color: #777;
+}
+.bs-callout-default h4 {
+    color: #777;
+}
+.bs-callout-primary {
+    border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+    color: #428bca;
+}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+    color: #5cb85c;
+}
+.bs-callout-danger {
+    border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+    color: #d9534f;
+}
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+.bs-callout-info {
+    border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+    color: #5bc0de;
+}
+
+.heading{
+    background:#448aff;
+    color:#FFF;
+}
+
+.heading h1{
+    font-size:63px;
+}
+
+.heading p{
+    font-size: 21px;
+    font-weight: 200;
+}
+
+section{
+    padding: 32px 0 60px;
+    position: relative;
+}
+
+.resume{
+    margin-top:-60px;
+}
+
+@media (min-width: 768px){
+    section{
+            padding: 38px 0 94px;
+    }
+
+    .resume{
+    margin-top:-60px;
+}
+}
+
+.timeline{
+    position: relative;
+    padding:20px 0 20px 50px;
+}
+
+.timeline .line{
+    position:absolute;
+    top:10px;
+    bottom:10px;
+    left:10px;
+    width: 5px;
+    background: #5bc0de;
+}
+
+.project{
+    position: relative;
+}
+
+.project:before{
+    content:"";
+    position: absolute;
+    top:0;
+    left:-58px;
+    width:40px;
+    height:40px;
+    border-radius: 50%;
+   border:5px solid #5bc0de; 
+   background: #337ab7;
+}
+
+.project:after{
+    content:"";
+    position: absolute;
+    top:10px;
+    left:-15px;
+    width:0px;
+    height:0px;
+    border-top: 10px solid transparent;
+    border-right: 15px solid #337ab7;
+    border-bottom: 10px solid transparent;
+}
+
+.project i{
+    color:#FFF;
+    position: absolute;
+    top:7px;
+    left:-44px;
+}
+
+.avatar{
+     margin: 0 auto;
+      width:120px;
+    height:120px;
+}
+
+.avatar img{
+    background: #FFF;
+    width:120px;
+    height:120px;
+    margin: 0 auto;
+    border:1px solid #ccc;
+}
+
+.sidebar{
+    margin-top:10px;
+}
+
+
