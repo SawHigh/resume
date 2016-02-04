@@ -45,3 +45,9 @@ class Education(models.Model):
     end = models.DateField(null=True, blank=True)
     title = models.CharField(max_length=200)
     
+class WorkLog(models.Model):
+    user = models.OneToOneField(User)
+    start = models.DateField()
+    end = models.DateField(null=True, blank=True)
+    company = models.CharField(max_length=200)
+    job = models.CharField(max_length=200)

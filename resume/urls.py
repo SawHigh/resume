@@ -7,6 +7,7 @@ ProfileList, ProfileUpdate, ProfileBrowse, \
 ContactList, ContactCreate, ContactUpdate, ContactDelete, ContactBrowse, \
 SkillList, SkillCreate, SkilltUpdate, SkillDelete, SkillBrowse, \
 EducationList, EducationCreate, EducationUpdate, EducationDelete, EducationBrowse, \
+WorkLogList, WorkLogCreate, WorkLogUpdate, WorkLogDelete, WorkLogBrowse, \
 UserList
 
 urlpatterns = patterns('',
@@ -42,6 +43,12 @@ urlpatterns = patterns('',
     url(r'^api/education/create/$', EducationCreate.as_view()),
     url(r'^api/education/(?P<pk>\d+)/update/$', EducationUpdate.as_view()),
     url(r'^api/education/(?P<pk>\d+)/delete/$', EducationDelete.as_view()),
+    
+    url(r'^api/worllog/(?P<pk>\d+)/$', WorkLogBrowse.as_view()),
+    url(r'^api/worllog/list/$',WorkLogList.as_view()),
+    url(r'^api/worllog/create/$', WorkLogCreate.as_view()),
+    url(r'^api/worllog/(?P<pk>\d+)/update/$',WorkLogUpdate.as_view()),
+    url(r'^api/worllog/(?P<pk>\d+)/delete/$', WorkLogDelete.as_view()),
 
 
     url(r'^admin/', include(admin.site.urls)),

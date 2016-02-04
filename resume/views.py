@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Project, Profile, Contact, Skill, Education
+from .models import Project, Profile, Contact, Skill, Education, WorkLog
 from django.contrib.auth.models import User
 from .forms import LoginForm
 from django.http.response import HttpResponseRedirect
@@ -132,7 +132,29 @@ class EducationUpdate(ManagerApiMixin,WebUpdateApiView):
 
 class EducationDelete(ManagerApiMixin,WebDeleteApiView):
     model = Education
+
+class WorkLogList(ManagerApiMixin, WebListApiView):
+    model = WorkLog
+    def query(self, request):
+        return {"user":request.user}
     
+class WorkLogCreate(ManagerApiMixin,WebCreateApiView):
+    model = WorkLog
+    field_names = [
+                  "start",
+                  "end",
+                  "company",
+                  "job",
+                  ]
+    
+    def extend_data(self, request):
+        return {"user":request.user}
+    
+class WorkLogUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = WorkLog
+
+class WorkLogDelete(ManagerApiMixin,WebDeleteApiView):
+    model = WorkLog
     
 class ProjectBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
     model = Project
@@ -148,3 +170,6 @@ class SkillBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
 
 class EducationBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
     model = Education    
+
+class WorkLogBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = WorkLog
