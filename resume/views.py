@@ -1,55 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Resume
-from .forms import ResumeForm, LoginForm
+from django.shortcuts import render
+from .models import Project, Profile, Contact, Skill, Education
+from django.contrib.auth.models import User
+from .forms import LoginForm
 from django.http.response import HttpResponseRedirect
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
-from utils.apiviews import WebListApiView
-
-@login_required(login_url=reverse_lazy("login"))
-def resume_list(request):
-    list1 = Resume.objects.all().order_by("-published_date")
-    context = {"list":list1}
-    return render(request, "resume_list.html", context)
-    
-@login_required(login_url=reverse_lazy("login"))
-def resume_create(request):
-    if request.method == "POST":
-        form = ResumeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('resume_list'))
-    else:
-        form = ResumeForm()
-    context = {"form":form}
-    return render(request, "resume_create.html", context)    
-
-@login_required(login_url=reverse_lazy("login"))
-def resume_update(request, pk):
-    instance = get_object_or_404(Resume, pk=pk)
-    if request.method == "POST":
-        form = ResumeForm(request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('resume_list'))
-    else:
-        form = ResumeForm(instance=instance)
-    context = {"form":form}
-    return render(request, "resume_create.html", context)  
-
-@login_required(login_url=reverse_lazy("login"))
-@require_POST
-def resume_delete(request, pk):
-    instance = get_object_or_404(Resume, pk=pk)
-    instance.delete()
-    return HttpResponseRedirect(reverse('resume_list'))
-
-class ResumeApi(WebListApiView):
-    model = Resume
-    def user_pass_test(self, request):
-        return True
+from utils.apiviews import WebListApiView, CommonApiMixin, ManagerApiMixin, WebCreateApiView,\
+WebUpdateApiView, WebDeleteApiView, QueryFromUrlMixin
 
 def log_in(request):
     if request.method == "POST":
@@ -60,11 +17,134 @@ def log_in(request):
             user = authenticate(username=un, password=pw)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(reverse("resume_list"))
+                if not user.profile:
+                    Profile.objects.create(user=user)
+                    Profile.save()
+                return HttpResponseRedirect(reverse("project_list"))
             else:
                 return HttpResponseRedirect(reverse("login"))
     else:
         form = LoginForm()
     context = {"form":form}
-    return render(request, "resume_create.html", context)  
-# Create your views here.
+    return render(request, "project_create.html", context)  
+
+class UserList(CommonApiMixin, WebListApiView):    
+    models = User
+    fields = [
+              "id",
+              "username"
+              ]
+
+class ProjectList(ManagerApiMixin, WebListApiView):
+    model = Project
+    def query(self, request):
+        return {"user":request.user}
+    
+class ProjectCreate(ManagerApiMixin,WebCreateApiView):
+    model = Project
+    field_names = [
+                  "title",
+                  "condition",
+                  "description",
+                  "published_date",
+                  "link",
+                  "source_code",
+                  ]
+    
+    def extend_data(self, request):
+        return {"user":request.user}
+    
+class ProjectUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = Project 
+
+class ProjectDelete(ManagerApiMixin,WebDeleteApiView):
+    model = Project 
+    
+class ProfileList(ManagerApiMixin, WebListApiView):
+    model = Project
+    def query(self, request):
+        return {"user":request.user}
+
+class ProfileUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = Profile
+    
+class ContactList(ManagerApiMixin, WebListApiView):
+    model = Contact
+    def query(self, request):
+        return {"user":request.user}
+    
+class ContactCreate(ManagerApiMixin,WebCreateApiView):
+    model = Contact
+    field_names = [
+                  "name",
+                  "link",
+                  ]
+    
+    def extend_data(self, request):
+        return {"user":request.user}
+    
+class ContactUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = Contact
+
+class ContactDelete(ManagerApiMixin,WebDeleteApiView):
+    model = Contact
+    
+    
+class SkillList(ManagerApiMixin, WebListApiView):
+    model = Skill
+    def query(self, request):
+        return {"user":request.user}
+    
+class SkillCreate(ManagerApiMixin,WebCreateApiView):
+    model = Skill
+    field_names = [
+                  "name",
+                  "degree",
+                  ]
+    
+    def extend_data(self, request):
+        return {"user":request.user}
+    
+class SkilltUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = Skill
+
+class SkillDelete(ManagerApiMixin,WebDeleteApiView):
+    model = Skill
+    
+class EducationList(ManagerApiMixin, WebListApiView):
+    model = Education
+    def query(self, request):
+        return {"user":request.user}
+    
+class EducationCreate(ManagerApiMixin,WebCreateApiView):
+    model = Education
+    field_names = [
+                  "start",
+                  "end",
+                  "title",
+                  ]
+    
+    def extend_data(self, request):
+        return {"user":request.user}
+    
+class EducationUpdate(ManagerApiMixin,WebUpdateApiView):
+    model = Education
+
+class EducationDelete(ManagerApiMixin,WebDeleteApiView):
+    model = Education
+    
+    
+class ProjectBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = Project
+ 
+class ProfileBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = Profile 
+    
+class ContactBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = Contact
+    
+class SkillBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = Skill
+
+class EducationBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    model = Education    

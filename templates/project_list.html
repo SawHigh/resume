@@ -1,4 +1,4 @@
-<a href="{% url 'resume_create' %}">新建</a>
+<a href="{% url 'project_create' %}">新建</a>
 
 {% for i in list %}
 标题:{{i.title}}
@@ -6,8 +6,8 @@
    日期: {{i.published_date}}
    链接: <a href="{{i.link}}">自己去睇啦仆街</a>
 
-   <a href="{% url 'resume_update' i.id %}">我改</a>
-   <form enctype="multipart/form-data" method="post" action="{% url 'resume_delete' i.id %}">{% csrf_token %}
+   <a href="{% url 'project_update' i.id %}">我改</a>
+   <form enctype="multipart/form-data" method="post" action="{% url 'project_delete' i.id %}">{% csrf_token %}
 	<input type="submit" value="我删"/>
 	</form>
 

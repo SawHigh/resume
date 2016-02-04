@@ -20,6 +20,9 @@ class ModelNeededError(Exception):
 class PaginationError(Exception):
     pass
 
+class ParamError(Exception):
+    pass
+
 class WebApiView(View):
     
     def parse(self, request):
@@ -67,7 +70,7 @@ class WebApiView(View):
     def post(self, request, *args, **kwargs):      
         return HttpResponse(json.dumps(self.do_post(request),ensure_ascii=False), content_type="application/json; charset=utf-8")
     
-
+    
 class WebListApiView(WebApiView):
     """
     必须参数：
@@ -89,11 +92,14 @@ class WebListApiView(WebApiView):
     query_condiction = {}
     fields = []
     
+    def query(self, request, *args, **kwargs):
+        return self.query_condiction
+    
     def sort_list(self, request):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
         try:
-            query_set = self.model.objects.filter(**self.query_condiction)
+            query_set = self.model.objects.filter(**self.query(request))
         except:
             raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
@@ -186,6 +192,10 @@ class WebCreateApiView(WebApiView):
     model = None
     field_names = []
     extend_dic = {}
+    
+    def extend_data(self,request):
+        return self.extend_dic
+    
     def check_post(self,request):
         if sorted(self.parse(request).keys()) == sorted(self.field_names):
             return True
@@ -198,7 +208,7 @@ class WebCreateApiView(WebApiView):
             return {"status":"fail", "reason":"invalid struture1"}
         try:
             dic = self.parse(request)
-            dic.update(self.extend_dic)
+            dic.update(self.extend_data(request))
             i = self.model.objects.create(**dic)
             i.save()
             return {"status":"success"}
@@ -245,7 +255,6 @@ class WebDeleteApiView(WebApiView):
     """
     model = None
     pk_url_kwarg = 'pk'
-    extend_dic = {}
     
     def do_post(self, request, *args, **kwargs):    
         if not self.model:
@@ -257,3 +266,22 @@ class WebDeleteApiView(WebApiView):
             return {"status":"success"}
         except:
             return {"status":"server error"}
+        
+class ManagerApiMixin(object):
+    def user_pass_test(self, request):
+        if request.user.is_authenticated():
+            return True
+        return False
+        
+class CommonApiMixin(object):
+    def user_pass_test(self, request):
+        return True
+    
+class QueryFromUrlMixin(object):
+    def query(self):
+        try:
+            pk = self.kwargs.get('pk')
+            return {"pk":pk}
+        except:
+            raise ParamError("There should be a pk in url")
+        

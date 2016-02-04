@@ -1,9 +1,9 @@
 from django import forms
-from .models import Resume
+from .models import Project
 
-class ResumeForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Resume
+        model = Project
         fields = "__all__"
         
 class LoginForm(forms.Form):
