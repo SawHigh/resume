@@ -6,7 +6,7 @@ from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from utils.apiviews import WebListApiView, CommonApiMixin, ManagerApiMixin, WebCreateApiView,\
-WebUpdateApiView, WebDeleteApiView, QueryFromUrlMixin
+WebUpdateApiView, WebDeleteApiView, QueryFromUrlMixin, OwnerPassMixin
 
 def log_in(request):
     if request.method == "POST":
@@ -54,10 +54,10 @@ class ProjectCreate(ManagerApiMixin,WebCreateApiView):
     def extend_data(self, request):
         return {"user":request.user}
     
-class ProjectUpdate(ManagerApiMixin,WebUpdateApiView):
+class ProjectUpdate(OwnerPassMixin,WebUpdateApiView):
     model = Project 
 
-class ProjectDelete(ManagerApiMixin,WebDeleteApiView):
+class ProjectDelete(OwnerPassMixin,WebDeleteApiView):
     model = Project 
     
 class ProfileList(ManagerApiMixin, WebListApiView):
@@ -65,7 +65,7 @@ class ProfileList(ManagerApiMixin, WebListApiView):
     def query(self, request):
         return {"user":request.user}
 
-class ProfileUpdate(ManagerApiMixin,WebUpdateApiView):
+class ProfileUpdate(OwnerPassMixin,WebUpdateApiView):
     model = Profile
     
 class ContactList(ManagerApiMixin, WebListApiView):
@@ -83,10 +83,10 @@ class ContactCreate(ManagerApiMixin,WebCreateApiView):
     def extend_data(self, request):
         return {"user":request.user}
     
-class ContactUpdate(ManagerApiMixin,WebUpdateApiView):
+class ContactUpdate(OwnerPassMixin,WebUpdateApiView):
     model = Contact
 
-class ContactDelete(ManagerApiMixin,WebDeleteApiView):
+class ContactDelete(OwnerPassMixin,WebDeleteApiView):
     model = Contact
     
     
@@ -105,10 +105,10 @@ class SkillCreate(ManagerApiMixin,WebCreateApiView):
     def extend_data(self, request):
         return {"user":request.user}
     
-class SkilltUpdate(ManagerApiMixin,WebUpdateApiView):
+class SkilltUpdate(OwnerPassMixin,WebUpdateApiView):
     model = Skill
 
-class SkillDelete(ManagerApiMixin,WebDeleteApiView):
+class SkillDelete(OwnerPassMixin,WebDeleteApiView):
     model = Skill
     
 class EducationList(ManagerApiMixin, WebListApiView):
@@ -127,10 +127,10 @@ class EducationCreate(ManagerApiMixin,WebCreateApiView):
     def extend_data(self, request):
         return {"user":request.user}
     
-class EducationUpdate(ManagerApiMixin,WebUpdateApiView):
+class EducationUpdate(OwnerPassMixin,WebUpdateApiView):
     model = Education
 
-class EducationDelete(ManagerApiMixin,WebDeleteApiView):
+class EducationDelete(OwnerPassMixin,WebDeleteApiView):
     model = Education
 
 class WorkLogList(ManagerApiMixin, WebListApiView):
@@ -150,10 +150,10 @@ class WorkLogCreate(ManagerApiMixin,WebCreateApiView):
     def extend_data(self, request):
         return {"user":request.user}
     
-class WorkLogUpdate(ManagerApiMixin,WebUpdateApiView):
+class WorkLogUpdate(OwnerPassMixin,WebUpdateApiView):
     model = WorkLog
 
-class WorkLogDelete(ManagerApiMixin,WebDeleteApiView):
+class WorkLogDelete(OwnerPassMixin,WebDeleteApiView):
     model = WorkLog
     
 class ProjectBrowse(CommonApiMixin, QueryFromUrlMixin, WebListApiView):

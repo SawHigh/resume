@@ -287,3 +287,10 @@ class QueryFromUrlMixin(object):
         except:
             raise ParamError("There should be a pk in url")
         
+class OwnerPassMixin(object):
+    def user_pass_test(self, request):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = get_object_or_404(self.model, pk=pk)
+        if request.user.is_authenticated() and obj.user == request.user:
+            return True
+        return False
