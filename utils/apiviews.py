@@ -107,14 +107,17 @@ class WebListApiView(WebApiView):
             return query_set.order_by("-s" % request.GET['sort'])
         else:
             return query_set
-         
-    def construct_data(self, request):
+    
+    def get_fields(self):  
         if not self.fields:
-            self.fields = self.model._meta.get_all_field_names()
+            return self.model._meta.get_all_field_names()
+        return self.fields
+            
+    def construct_data(self, request):
         data = []
         for i in self.sort_list(request):
             dic = {}
-            for j in self.fields:
+            for j in self.get_fields():
                 try:
                     if type(j) == list:
                         dic.update({j[0]:str(reduce(lambda x, y:getattr(x, y), [i].extend(j)))})
@@ -168,14 +171,17 @@ class WebDetailApiView(SingleObjectMixin, WebApiView):
     """
     fields = []
     
+    def get_fields(self):  
+        if not self.fields:
+            return self.model._meta.get_all_field_names()
+        return self.fields
+    
     def do_get(self, request, *args, **kwargs):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-        if not self.fields:
-            self.fields = self.model._meta.get_all_field_names()
         obj = self.get_object()
         data = {}
-        for i in self.fields:
+        for i in self.get_fields():
             if type(i) == list:
                 data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
             else:   
@@ -294,3 +300,21 @@ class OwnerPassMixin(object):
         if request.user.is_authenticated() and obj.user == request.user:
             return True
         return False
+    
+class UserIdMixin(object):
+    def get_fields(self):  
+        if not self.fields:
+            fields = self.model._meta.get_all_field_names().copy()
+            fields.remove("user")
+            fields.append(["user", "id"])
+        return self.fields
+    
+class CurrentUserMixin(object):
+    def query(self, request, *args, **kwargs):
+        return {"user":request.user}
+    
+class ManagerListView(UserIdMixin, CurrentUserMixin, ManagerApiMixin, WebListApiView):
+    pass
+
+class CommonListView(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    pass
