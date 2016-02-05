@@ -7,6 +7,7 @@ from django.middleware.csrf import rotate_token
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 class MethonNotDefineError(Exception):
     pass
@@ -142,7 +143,7 @@ class WebListApiView(WebApiView):
             return items
         
     def do_get(self, request, *args, **kwargs):
-        return {'data':self.the_page(request)}
+        return {'status':'success','data':self.the_page(request)}
             
 class WebDetailApiView(SingleObjectMixin, WebApiView):
     """
@@ -179,7 +180,7 @@ class WebDetailApiView(SingleObjectMixin, WebApiView):
                 data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
             else:   
                 data.update({i:getattr(obj, i)})
-        return {'data':data}
+        return {'status':'success','data':data}
     
 class WebCreateApiView(WebApiView):  
     """
@@ -278,10 +279,11 @@ class CommonApiMixin(object):
         return True
     
 class QueryFromUrlMixin(object):
-    def query(self):
+    def query(self, request):
         try:
             pk = self.kwargs.get('pk')
-            return {"pk":pk}
+            user = get_object_or_404(User,pk=pk)
+            return {"user":user}
         except:
             raise ParamError("There should be a pk in url")
         
