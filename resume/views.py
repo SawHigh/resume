@@ -29,7 +29,7 @@ def log_in(request):
     return render(request, "project_create.html", context)  
 
 class UserList(CommonApiMixin, WebListApiView):    
-    models = User
+    model = User
     fields = [
               "id",
               "username"
