@@ -20,7 +20,7 @@ def log_in(request):
                 if not user.profile:
                     Profile.objects.create(user=user)
                     Profile.save()
-                return HttpResponseRedirect(reverse("project_list"))
+                return HttpResponseRedirect(reverse("backend_home"))
             else:
                 return HttpResponseRedirect(reverse("login"))
     else:
