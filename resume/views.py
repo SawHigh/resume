@@ -5,8 +5,9 @@ from .forms import LoginForm
 from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
-from utils.apiviews import WebListApiView, CommonApiMixin, ManagerApiMixin, WebCreateApiView,\
-WebUpdateApiView, WebDeleteApiView, OwnerPassMixin, ManagerListView, CommonListView
+from utils.base_views import WebListApiView
+from utils.mixins import CommonApiMixin
+from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView
 
 def log_in(request):
     if request.method == "POST":
@@ -38,7 +39,7 @@ class UserList(CommonApiMixin, WebListApiView):
 class ProjectList(ManagerListView):
     model = Project
     
-class ProjectCreate(ManagerApiMixin,WebCreateApiView):
+class ProjectCreate(ManagerCreatView):
     model = Project
     field_names = [
                   "title",
@@ -49,63 +50,54 @@ class ProjectCreate(ManagerApiMixin,WebCreateApiView):
                   "source_code",
                   ]
     
-    def extend_data(self, request):
-        return {"user":request.user}
-    
-class ProjectUpdate(OwnerPassMixin,WebUpdateApiView):
+class ProjectUpdate(ManagerUpdateView):
     model = Project 
 
-class ProjectDelete(OwnerPassMixin,WebDeleteApiView):
+class ProjectDelete(ManagerDeleteView):
     model = Project 
     
 class ProfileList(ManagerListView):
     model = Project
 
-class ProfileUpdate(OwnerPassMixin,WebUpdateApiView):
+class ProfileUpdate(ManagerUpdateView):
     model = Profile
     
 class ContactList(ManagerListView):
     model = Contact
     
-class ContactCreate(ManagerApiMixin,WebCreateApiView):
+class ContactCreate(ManagerCreatView):
     model = Contact
     field_names = [
                   "name",
                   "link",
                   ]
     
-    def extend_data(self, request):
-        return {"user":request.user}
-    
-class ContactUpdate(OwnerPassMixin,WebUpdateApiView):
+class ContactUpdate(ManagerUpdateView):
     model = Contact
 
-class ContactDelete(OwnerPassMixin,WebDeleteApiView):
+class ContactDelete(ManagerDeleteView):
     model = Contact
         
 class SkillList(ManagerListView):
     model = Skill
     
-class SkillCreate(ManagerApiMixin,WebCreateApiView):
+class SkillCreate(ManagerCreatView):
     model = Skill
     field_names = [
                   "name",
                   "degree",
                   ]
     
-    def extend_data(self, request):
-        return {"user":request.user}
-    
-class SkilltUpdate(OwnerPassMixin,WebUpdateApiView):
+class SkilltUpdate(ManagerUpdateView):
     model = Skill
 
-class SkillDelete(OwnerPassMixin,WebDeleteApiView):
+class SkillDelete(ManagerDeleteView):
     model = Skill
     
 class EducationList(ManagerListView):
     model = Education
     
-class EducationCreate(ManagerApiMixin,WebCreateApiView):
+class EducationCreate(ManagerCreatView):
     model = Education
     field_names = [
                   "start",
@@ -113,19 +105,16 @@ class EducationCreate(ManagerApiMixin,WebCreateApiView):
                   "title",
                   ]
     
-    def extend_data(self, request):
-        return {"user":request.user}
-    
-class EducationUpdate(OwnerPassMixin,WebUpdateApiView):
+class EducationUpdate(ManagerUpdateView):
     model = Education
 
-class EducationDelete(OwnerPassMixin,WebDeleteApiView):
+class EducationDelete(ManagerDeleteView):
     model = Education
 
 class WorkLogList(ManagerListView):
     model = WorkLog
     
-class WorkLogCreate(ManagerApiMixin,WebCreateApiView):
+class WorkLogCreate(ManagerCreatView):
     model = WorkLog
     field_names = [
                   "start",
@@ -134,13 +123,10 @@ class WorkLogCreate(ManagerApiMixin,WebCreateApiView):
                   "job",
                   ]
     
-    def extend_data(self, request):
-        return {"user":request.user}
-    
-class WorkLogUpdate(OwnerPassMixin,WebUpdateApiView):
+class WorkLogUpdate(ManagerUpdateView):
     model = WorkLog
 
-class WorkLogDelete(OwnerPassMixin,WebDeleteApiView):
+class WorkLogDelete(ManagerDeleteView):
     model = WorkLog
     
 class ProjectBrowse(CommonListView):
