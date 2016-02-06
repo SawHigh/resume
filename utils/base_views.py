@@ -105,7 +105,9 @@ class WebListApiView(WebApiView):
             for j in self.get_fields():
                 try:
                     if type(j) == list:
-                        dic.update({j[0]:str(reduce(lambda x, y:getattr(x, y), [i].extend(j)))})
+                        a = [i]
+                        a.extend(j)
+                        dic.update({j[0]:str(reduce(lambda x, y:getattr(x, y), a))})
                     else:
                         dic.update({j:str(getattr(i, j))})
                 except:

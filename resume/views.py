@@ -57,7 +57,7 @@ class ProjectDelete(ManagerDeleteView):
     model = Project 
     
 class ProfileList(ManagerListView):
-    model = Project
+    model = Profile
 
 class ProfileUpdate(ManagerUpdateView):
     model = Profile

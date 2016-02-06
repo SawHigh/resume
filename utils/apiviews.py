@@ -1,11 +1,15 @@
 #_*_ coding:utf-8 _*_
 from .base_views import WebListApiView, WebCreateApiView, WebUpdateApiView, WebDeleteApiView
 
-from .mixins import UserIdMixin, CurrentUserMixin, ManagerApiMixin, GetOwnerMixin, OwnerPassMixin, \
+from .mixins import CurrentUserMixin, ManagerApiMixin, GetOwnerMixin, OwnerPassMixin, \
 CommonApiMixin, QueryFromUrlMixin
 
 
-class ManagerListView(UserIdMixin, CurrentUserMixin, ManagerApiMixin, WebListApiView):
+class ManagerListView(
+#                      UserIdMixin, 
+                      CurrentUserMixin, 
+                      ManagerApiMixin, 
+                      WebListApiView):
     pass
 
 class ManagerCreatView(GetOwnerMixin, ManagerApiMixin, WebCreateApiView):

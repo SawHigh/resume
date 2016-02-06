@@ -1,3 +1,4 @@
+import copy
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .exceptions import ParamError
@@ -29,17 +30,10 @@ class OwnerPassMixin(object):
             return True
         return False
     
-class UserIdMixin(object):
-    def get_fields(self):  
-        if not self.fields:
-            fields = self.model._meta.get_all_field_names().copy()
-            fields.remove("user")
-            fields.append(["user", "id"])
-        return self.fields
-    
 class CurrentUserMixin(object):
     def query(self, request, *args, **kwargs):
-        return {"user":request.user}
+        self.query_condiction.update({"user":request.user})
+        return self.query_condiction
 
 class GetOwnerMixin(object):  
     def extend_data(self, request):
