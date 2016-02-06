@@ -1,15 +1,6 @@
-app.controller('profileCtrl','$http', ['$scope', function($scope,$http) {
-  $scope.profiles = {
-      name:"",
-      birthday:"",
-      sexy:"",
-      email:"",
-      introducion:""
-    }
-    $scope.submit = function(){
-      $http.post("/shop/shop_create/", $scope.profiles).success(function(data) {
-           console.log(data);
-        })
-      
-    };  
+app.controller('profileCtrl', ['$scope', 'profile',function($scope,profile) {
+    profile.success(function(data) {
+    $scope.profiles = data.data; 
+    console.log($scope.profiles);
+    }); 
 }]);

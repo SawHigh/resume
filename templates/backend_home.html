@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!doctype html>
-<html>
+<html ng-app="resumeBackend">
 <head>
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +13,13 @@
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>		
 <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>	
-<script src="/bower_components/angular-route/angular-route.min.js"></script>	
+<script src="{% static 'bower_components/angular-route/angular-route.min.js' %}"></script>	
 
 </head>
 <body>
 <div ng-view></div>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/controllers/backendCtrl.js' %}"></script>
+<script src="{% static 'js/services/factory.js' %}"></script>
 </body>
 </html>

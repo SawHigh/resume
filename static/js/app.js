@@ -14,17 +14,13 @@
     return cookieValue;
 }
 
-  var app = angular.module('resume', ['ngRoute']);
+  var app = angular.module('resumeBackend', ['ngRoute']);
 
 app.config(function ($routeProvider) { 
   $routeProvider 
     .when('/', { 
-      templateUrl: '/static/templates/backend_home.html' 
-    })
-    .when('/profile_update', { 
-      templateUrl: '/static/templates/profile_update',
-      controller:'profileUpdateCtrl' 
-    })    
+      templateUrl: '/static/templates/backend/home.html' 
+    })  
     .otherwise({ 
       redirectTo: '/' 
     });
