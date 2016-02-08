@@ -6,8 +6,9 @@ from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from utils.base_views import WebListApiView
-from utils.mixins import CommonApiMixin
+from utils.mixins import CommonApiMixin, FileUploadMixin
 from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView
+from .forms import AvatarForm
 
 def log_in(request):
     if request.method == "POST":
@@ -49,6 +50,10 @@ class ProjectCreate(ManagerCreatView):
     
 class ProjectUpdate(ManagerUpdateView):
     model = Project 
+
+class AvatarUpdate(FileUploadMixin, ManagerUpdateView):
+    model = Project
+    form = AvatarForm
 
 class ProjectDelete(ManagerDeleteView):
     model = Project 

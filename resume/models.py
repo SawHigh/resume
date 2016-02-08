@@ -28,6 +28,7 @@ class Profile(models.Model):
     sex = models.CharField(max_length=10, choices=sex_choice, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     introducion = models.TextField(null=True, blank=True)
+    avatar = models.ImageField(max_length=20, upload_to="avatar", null=True, blank=True)
     
 class Contact(models.Model):
     user = models.OneToOneField(User)

@@ -77,6 +77,7 @@ class WebListApiView(WebApiView):
     model = None
     query_condiction = {}
     fields = []
+    file_fields = []
     
     def query(self, request, *args, **kwargs):
         return self.query_condiction

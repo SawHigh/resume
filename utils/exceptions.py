@@ -9,3 +9,6 @@ class ModelNeededError(Exception):
 
 class ParamError(Exception):
     pass
+
+class FormNeededError(Exception):
+    pass

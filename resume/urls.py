@@ -3,7 +3,7 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from .views import log_in, ProjectList, ProjectCreate, ProjectUpdate, ProjectDelete, ProjectBrowse, \
-ProfileList, ProfileUpdate, ProfileBrowse, \
+ProfileList, ProfileUpdate, ProfileBrowse, AvatarUpdate,\
 ContactList, ContactCreate, ContactUpdate, ContactDelete, ContactBrowse, \
 SkillList, SkillCreate, SkilltUpdate, SkillDelete, SkillBrowse, \
 EducationList, EducationCreate, EducationUpdate, EducationDelete, EducationBrowse, \
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^api/profile/(?P<pk>\d+)/$', ProfileBrowse.as_view()),
     url(r'^api/profile/list/$', ProfileList.as_view()),
     url(r'^api/profile/(?P<pk>\d+)/update/$', ProfileUpdate.as_view()),
+    url(r'^api/profile/avatar/(?P<pk>\d+)/update/$', AvatarUpdate.as_view()),
     
     url(r'^api/contact/(?P<pk>\d+)/$', ContactBrowse.as_view(), name="contact_browse"),
     url(r'^api/contact/list/$', ContactList.as_view(), name="contact_list"),
