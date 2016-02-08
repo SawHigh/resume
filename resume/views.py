@@ -6,7 +6,7 @@ from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from utils.base_views import WebListApiView
-from utils.mixins import CommonApiMixin, FileUploadMixin
+from utils.mixins import CommonApiMixin, ImageResizeMixin
 from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView
 from .forms import AvatarForm
 
@@ -51,9 +51,11 @@ class ProjectCreate(ManagerCreatView):
 class ProjectUpdate(ManagerUpdateView):
     model = Project 
 
-class AvatarUpdate(FileUploadMixin, ManagerUpdateView):
+class AvatarUpdate(ImageResizeMixin, ManagerUpdateView):
     model = Project
     form = AvatarForm
+    image_field = "avatar"
+    max_size = 200
 
 class ProjectDelete(ManagerDeleteView):
     model = Project 

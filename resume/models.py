@@ -30,6 +30,21 @@ class Profile(models.Model):
     introducion = models.TextField(null=True, blank=True)
     avatar = models.ImageField(max_length=20, upload_to="avatar", null=True, blank=True)
     
+    def save(self, *args, **kwargs):          
+        super(Profile, self).save()
+        if self.avatar:
+            image = Image.open(self.avatar)
+            (width, height) = image.size   
+            if width > 200 or height > 200:
+                    
+                if width < height:
+                    factor = 50.0 / height
+                else:
+                    factor = 50.0 / width
+                size = (int(width * factor), int(height * factor))
+                image = image.resize(size, Image.ANTIALIAS)
+                image.save(self.avatar.path)
+    
 class Contact(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=100)

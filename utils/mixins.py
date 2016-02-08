@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .exceptions import ParamError, ModelNeededError, FormNeededError
+from PIL import Image
 
 class ManagerApiMixin(object):
     def user_pass_test(self, request):
@@ -63,3 +64,35 @@ class FileUploadMixin(object):
                 return {"status":"fail", "reason":"form invalid"}
         except:# from .mixins import *
             return {"status":"fail", "reason":"who the hell knows"}
+        
+class ImageResizeMixin(FileUploadMixin):
+    image_field = None
+    max_size = 50
+    
+    def get_image_field(self):
+        if not self.image_field:
+            raise FormNeededError('ImageField UnDefined')
+        return self.image_field
+    
+    def do_post(self, request, *args, **kwargs):               
+        try:
+            form = self.get_form(request)
+            if form.is_valid():
+                i = form.save()   
+                if getattr(i, self.get_image_field()):
+                    image = Image.open(getattr(i, self.get_image_field()))
+                    (width, height) = image.size   
+                    if width > self.max_size or height > self.max_size:                    
+                        if width < height:
+                            factor = self.max_size / height
+                        else:
+                            factor = self.max_size / width
+                        size = (int(width * factor), int(height * factor))
+                        image = image.resize(size, Image.ANTIALIAS)
+                        image.save(getattr(i, self.get_image_field()).path)           
+                return {"status":"success"}
+            else:
+                return {"status":"fail", "reason":"form invalid"}
+        except:# from .mixins import *
+            return {"status":"fail", "reason":"who the hell knows"}
+                       
