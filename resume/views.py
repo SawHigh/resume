@@ -52,7 +52,7 @@ class ProjectUpdate(ManagerUpdateView):
     model = Project 
 
 class AvatarUpdate(ImageResizeMixin, ManagerUpdateView):
-    model = Project
+    model = Profile
     form = AvatarForm
     image_field = "avatar"
     max_width = 200

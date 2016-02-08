@@ -23,9 +23,9 @@ urlpatterns = patterns('',
     url(r'^api/project/(?P<pk>\d+)/delete/$', ProjectDelete.as_view()), #pk:对象id
     
     url(r'^api/profile/(?P<pk>\d+)/$', ProfileBrowse.as_view()),
-    url(r'^api/profile/list/$', ProfileList.as_view()),
+    url(r'^api/profile/list/$', ProfileList.as_view(), name="profile_list"),
     url(r'^api/profile/(?P<pk>\d+)/update/$', ProfileUpdate.as_view()),
-    url(r'^api/profile/avatar/(?P<pk>\d+)/update/$', AvatarUpdate.as_view()),
+    url(r'^api/profile/avatar/(?P<pk>\d+)/update/$', AvatarUpdate.as_view(), name="avatar_update"),
     
     url(r'^api/contact/(?P<pk>\d+)/$', ContactBrowse.as_view(), name="contact_browse"),
     url(r'^api/contact/list/$', ContactList.as_view(), name="contact_list"),
