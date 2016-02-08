@@ -18,9 +18,6 @@ def log_in(request):
             user = authenticate(username=un, password=pw)
             if user is not None:
                 login(request, user)
-                if not Profile.objects.filter(user=user).exists():
-                    i = Profile.objects.create(user=user)
-                    i.save()
                 return HttpResponseRedirect(reverse("backend_home"))
             else:
                 return HttpResponseRedirect(reverse("login"))

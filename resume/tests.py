@@ -5,7 +5,7 @@ from django.test.client import Client
 from resume.models import Contact
 import json
 
-class LoginTestCase(TestCase):
+class APITestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user('sawhigh', 'sawhigh@example.com', 'password')
