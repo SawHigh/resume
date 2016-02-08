@@ -67,12 +67,25 @@ class FileUploadMixin(object):
         
 class ImageResizeMixin(FileUploadMixin):
     image_field = None
-    max_size = 50
+    max_width = 0
+    max_height = 0
     
     def get_image_field(self):
         if not self.image_field:
             raise FormNeededError('ImageField UnDefined')
         return self.image_field
+    
+    def get_factor(self, width, height):
+        if self.max_width and ( width > self.max_width ):
+            width_factor = float(self.max_width) / width
+        else:
+            width_factor = 1
+        if self.max_height and ( height > self.max_height ): 
+            height_factor = float(self.max_height) / height
+        else:
+            height_factor = 1
+        return min([width_factor, height_factor])
+            
     
     def do_post(self, request, *args, **kwargs):               
         try:
@@ -82,11 +95,8 @@ class ImageResizeMixin(FileUploadMixin):
                 if getattr(i, self.get_image_field()):
                     image = Image.open(getattr(i, self.get_image_field()))
                     (width, height) = image.size   
-                    if width > self.max_size or height > self.max_size:                    
-                        if width < height:
-                            factor = self.max_size / height
-                        else:
-                            factor = self.max_size / width
+                    if width > self.max_width or height > self.max_height:
+                        factor = self.get_factor(width, height)
                         size = (int(width * factor), int(height * factor))
                         image = image.resize(size, Image.ANTIALIAS)
                         image.save(getattr(i, self.get_image_field()).path)           

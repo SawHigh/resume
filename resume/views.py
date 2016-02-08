@@ -55,7 +55,8 @@ class AvatarUpdate(ImageResizeMixin, ManagerUpdateView):
     model = Project
     form = AvatarForm
     image_field = "avatar"
-    max_size = 200
+    max_width = 200
+    max_height = 200
 
 class ProjectDelete(ManagerDeleteView):
     model = Project 
