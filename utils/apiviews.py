@@ -23,6 +23,9 @@ class ManagerUpdateView(OwnerPassMixin,WebUpdateApiView):
 class ManagerDeleteView(OwnerPassMixin,WebDeleteApiView):
     pass
 
+class MustLoginListView(ManagerApiMixin, WebListApiView):
+    pass
+
 class MustLoginCreateView(ManagerApiMixin, WebCreateApiView):
     pass
 

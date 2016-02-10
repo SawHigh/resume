@@ -8,7 +8,7 @@ UserContactList, UserContactCreate, UserContactUpdate, UserContactDelete, UserCo
 SkillList, SkillCreate, SkilltUpdate, SkillDelete, SkillBrowse, \
 EducationList, EducationCreate, EducationUpdate, EducationDelete, EducationBrowse, \
 WorkLogList, WorkLogCreate, WorkLogUpdate, WorkLogDelete, WorkLogBrowse, \
-UserList, ContactCreate
+UserList, ContactCreate, ContactList
 
 urlpatterns = patterns('',
     
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     
     url(r'^api/user/$', UserList.as_view()),
     
+    url(r'^api/contact/list/$', ContactList.as_view(), name="contact_list"),
     url(r'^api/contact/create/$', ContactCreate.as_view(), name="contact_create"),
     
     url(r'^api/project/(?P<pk>\d+)/$', ProjectBrowse.as_view()),  #pk:用户id

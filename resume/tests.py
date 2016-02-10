@@ -34,13 +34,18 @@ class APITestCase(TestCase):
         response = self.client.post(reverse_lazy("contact_create"), data=data)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
+        
+    def test_contact_list(self):
+        self.client.login(username='sawhigh', password='password')
+        response = self.client.get(reverse("contact_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "name")
 
     def testcreate(self):
         self.client.login(username='sawhigh', password='password')
         data=json.dumps({'contact_id':self.contact.id, 'link':'http://google.com'})
         response = self.client.post(reverse("usercontact_create"), data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        print response
         self.assertContains(response, "success")
         
     def testbrowse(self):

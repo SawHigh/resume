@@ -104,6 +104,7 @@ class WebListApiView(WebApiView):
         for i in self.sort_list(request):
             dic = {}
             for j in self.get_fields():
+        
                 try:
                     if type(j) == list:
                         a = [i]

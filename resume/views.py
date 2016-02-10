@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate
 from utils.base_views import WebListApiView
 from utils.mixins import CommonApiMixin, ImageResizeMixin
 from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView, \
-MustLoginCreateView
+MustLoginCreateView, MustLoginListView
 from resume.forms import ContactForm, AvatarForm
 
 def log_in(request):
@@ -34,6 +34,10 @@ class UserList(CommonApiMixin, WebListApiView):
               "id",
               "username"
               ]
+
+class ContactList(MustLoginListView):
+    model = Contact
+    fields = ["id", "name", "icon"]
     
 class ContactCreate(ImageResizeMixin, MustLoginCreateView):
     model = Contact
