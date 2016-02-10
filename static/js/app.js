@@ -20,7 +20,10 @@ app.config(function ($routeProvider) {
   $routeProvider 
     .when('/', { 
       templateUrl: '/static/templates/backend/home.html' 
-    })  
+    }) 
+    .when('/profileUpdate/:edit', { 
+      templateUrl: '/static/templates/backend/profile_update.html' 
+    })   
     .otherwise({ 
       redirectTo: '/' 
     });
