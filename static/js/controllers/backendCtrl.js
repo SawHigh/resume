@@ -20,7 +20,9 @@ app.controller('profileCtrl', ['$scope','$http','$routeParams', 'profile',functi
             introducion:$scope.profiles.introducion,
             email:$scope.profiles.email,
             birthday:$scope.profiles.birthday,
-            sex:$scope.profiles.sex
+            sex:$scope.profiles.sex,
+            phone:$scope.profiles.phone,
+            address:$scope.profiles.address
           };
           console.log(profileUpdate);
           $http.post(link,profileUpdate).success(function(data) {
