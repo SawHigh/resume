@@ -4,17 +4,19 @@ from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from .views import log_in, ProjectList, ProjectCreate, ProjectUpdate, ProjectDelete, ProjectBrowse, \
 ProfileList, ProfileUpdate, ProfileBrowse, AvatarUpdate,\
-ContactList, ContactCreate, ContactUpdate, ContactDelete, ContactBrowse, \
+UserContactList, UserContactCreate, UserContactUpdate, UserContactDelete, UserContactBrowse, \
 SkillList, SkillCreate, SkilltUpdate, SkillDelete, SkillBrowse, \
 EducationList, EducationCreate, EducationUpdate, EducationDelete, EducationBrowse, \
 WorkLogList, WorkLogCreate, WorkLogUpdate, WorkLogDelete, WorkLogBrowse, \
-UserList
+UserList, ContactCreate
 
 urlpatterns = patterns('',
     
     url(r'^login/$', log_in, name='login'),
     
     url(r'^api/user/$', UserList.as_view()),
+    
+    url(r'^api/contact/create/$', ContactCreate.as_view(), name="contact_create"),
     
     url(r'^api/project/(?P<pk>\d+)/$', ProjectBrowse.as_view()),  #pk:用户id
     url(r'^api/project/list/$', ProjectList.as_view()),
@@ -27,11 +29,11 @@ urlpatterns = patterns('',
     url(r'^api/profile/(?P<pk>\d+)/update/$', ProfileUpdate.as_view()),
     url(r'^api/profile/avatar/(?P<pk>\d+)/update/$', AvatarUpdate.as_view(), name="avatar_update"),
     
-    url(r'^api/contact/(?P<pk>\d+)/$', ContactBrowse.as_view(), name="contact_browse"),
-    url(r'^api/contact/list/$', ContactList.as_view(), name="contact_list"),
-    url(r'^api/contact/create/$', ContactCreate.as_view(), name="contact_create"),
-    url(r'^api/contact/(?P<pk>\d+)/update/$', ContactUpdate.as_view(), name="contact_update"),
-    url(r'^api/contact/(?P<pk>\d+)/delete/$', ContactDelete.as_view(), name="contact_delete"),
+    url(r'^api/usercontact/(?P<pk>\d+)/$', UserContactBrowse.as_view(), name="usercontact_browse"),
+    url(r'^api/usercontact/list/$', UserContactList.as_view(), name="usercontact_list"),
+    url(r'^api/usercontact/create/$', UserContactCreate.as_view(), name="usercontact_create"),
+    url(r'^api/usercontact/(?P<pk>\d+)/update/$', UserContactUpdate.as_view(), name="usercontact_update"),
+    url(r'^api/usercontact/(?P<pk>\d+)/delete/$', UserContactDelete.as_view(), name="usercontact_delete"),
     
     url(r'^api/skill/(?P<pk>\d+)/$', SkillBrowse.as_view()),
     url(r'^api/skill/list/$', SkillList.as_view()),

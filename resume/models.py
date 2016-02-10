@@ -13,7 +13,7 @@ degrees = (
            )
 
 class Project(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     title = models.CharField(max_length=200)
     condition = models.CharField(max_length=10, choices=conditions, null=True)
     description = models.TextField()
@@ -26,29 +26,37 @@ class Profile(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=10, choices=sex_choice, null=True, blank=True)
+    address = models.CharField(max_length=1024, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     introducion = models.TextField(null=True, blank=True)
-    avatar = models.ImageField(max_length=20, upload_to="avatar", null=True, blank=True)
+    avatar = models.ImageField(max_length=20, upload_to="avatar", null=True, blank=True)   
     
-    
-class Contact(models.Model):
-    user = models.OneToOneField(User)
+class Contact(models.Model):    
     name = models.CharField(max_length=100)
+    icon = models.ImageField(max_length=20, upload_to="contact")
+    
+    def __unicode__(self):
+        return self.name
+    
+class UserContact(models.Model):
+    user = models.ForeignKey(User)
+    contact = models.ForeignKey(Contact)
     link = models.URLField()
     
 class Skill(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=100)
     degree = models.IntegerField()
     
 class Education(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     start = models.DateField()
     end = models.DateField(null=True, blank=True)
     title = models.CharField(max_length=200)
     
 class WorkLog(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     start = models.DateField()
     end = models.DateField(null=True, blank=True)
     company = models.CharField(max_length=200)

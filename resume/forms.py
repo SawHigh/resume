@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile, Contact
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -9,3 +9,10 @@ class AvatarForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["avatar"]
+        
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = "__all__"
+    
+    

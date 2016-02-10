@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.test.client import Client
-from resume.models import Contact, Profile
+from resume.models import Contact, Profile, UserContact
 import json
 from StringIO import StringIO
 from PIL import Image
@@ -21,26 +21,39 @@ class APITestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user('sawhigh', 'sawhigh@example.com', 'password')
+        i = Contact.objects.create(name="abc", icon=self.get_image_file())
+        i.save()
+        self.contact = i
+        j = UserContact.objects.create(user=self.user, contact=i, link='http://google.com')
+        j.save()
+        self.user_contact = j
+        
+    def test_contact_create(self):
+        data = {'name':'dealhigh', 'icon': self.get_image_file()}
+        self.client.login(username='sawhigh', password='password')
+        response = self.client.post(reverse_lazy("contact_create"), data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
 
     def testcreate(self):
         self.client.login(username='sawhigh', password='password')
-        data=json.dumps({'name':'sawhigh', 'link':'http://google.com'})
-        response = self.client.post(reverse("contact_create"), data=data, content_type='application/json')
+        data=json.dumps({'contact_id':self.contact.id, 'link':'http://google.com'})
+        response = self.client.post(reverse("usercontact_create"), data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        print response
         self.assertContains(response, "success")
         
     def testbrowse(self):
         self.client.login(username='sawhigh', password='password')
-        user = User.objects.get(username='sawhigh')
-        contact = Contact.objects.create(user=user, name="1", link='http://google.com')
-        contact.save()
-        response = self.client.get(reverse("contact_browse", args=[user.id]))
+        user = self.user
+        response = self.client.get(reverse("usercontact_browse", args=[user.id]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "name")
+        
+        self.assertContains(response, "link")
         
     def testlist(self):
         self.client.login(username='sawhigh', password='password')
-        user = User.objects.get(username='sawhigh')
+        user = self.user
         i = Profile.objects.create(user=user, avatar=self.get_image_file())
         i.save()
         
@@ -50,20 +63,17 @@ class APITestCase(TestCase):
 
     def testupdate(self):
         self.client.login(username='sawhigh', password='password')
-        user = User.objects.get(username='sawhigh')
-        contact = Contact.objects.create(user=user, name="1", link='http://google.com')
-        contact.save()
-        data=json.dumps({'name':'sawhigh', 'link':'http://google.com'})
-        response = self.client.post(reverse("contact_update", args=[contact.id]), data=data, content_type='application/json')
+        contact = self.user_contact
+        data=json.dumps({ 'link':'http://google.com'})
+        response = self.client.post(reverse("usercontact_update", args=[contact.id]), data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
         
     def testdelete(self):
         self.client.login(username='sawhigh', password='password')
-        user = User.objects.get(username='sawhigh')
-        contact = Contact.objects.create(user=user, name="1", link='http://google.com')
-        contact.save()
-        response = self.client.post(reverse("contact_delete", args=[contact.id]))
+        contact = self.user_contact
+
+        response = self.client.post(reverse("usercontact_delete", args=[contact.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
         

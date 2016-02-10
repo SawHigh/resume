@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Project, Profile, Contact, Skill, Education, WorkLog
+from .models import Project, Profile, UserContact, Skill, Education, WorkLog, Contact
 from django.contrib.auth.models import User
 from .forms import LoginForm
 from django.http.response import HttpResponseRedirect
@@ -7,8 +7,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from utils.base_views import WebListApiView
 from utils.mixins import CommonApiMixin, ImageResizeMixin
-from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView
-from .forms import AvatarForm
+from utils.apiviews import ManagerListView, ManagerCreatView,ManagerUpdateView, ManagerDeleteView, CommonListView, \
+MustLoginCreateView
+from resume.forms import ContactForm, AvatarForm
 
 def log_in(request):
     if request.method == "POST":
@@ -33,6 +34,18 @@ class UserList(CommonApiMixin, WebListApiView):
               "id",
               "username"
               ]
+    
+class ContactCreate(ImageResizeMixin, MustLoginCreateView):
+    model = Contact
+    form = ContactForm
+    image_field = "icon"
+    max_width = 200
+    max_height = 200
+    
+    field_names = ['name', 'icon']
+    
+    def get_form(self, request):
+        return self.form(request.POST, request.FILES)
 
 class ProjectList(ManagerListView):
     model = Project
@@ -67,21 +80,21 @@ class ProfileList(ManagerListView):
 class ProfileUpdate(ManagerUpdateView):
     model = Profile
     
-class ContactList(ManagerListView):
-    model = Contact
+class UserContactList(ManagerListView):
+    model = UserContact
     
-class ContactCreate(ManagerCreatView):
-    model = Contact
+class UserContactCreate(ManagerCreatView):
+    model = UserContact
     field_names = [
-                  "name",
+                  "contact_id",
                   "link",
                   ]
     
-class ContactUpdate(ManagerUpdateView):
-    model = Contact
+class UserContactUpdate(ManagerUpdateView):
+    model = UserContact
 
-class ContactDelete(ManagerDeleteView):
-    model = Contact
+class UserContactDelete(ManagerDeleteView):
+    model = UserContact
         
 class SkillList(ManagerListView):
     model = Skill
@@ -140,8 +153,8 @@ class ProjectBrowse(CommonListView):
 class ProfileBrowse(CommonListView):
     model = Profile 
     
-class ContactBrowse(CommonListView):
-    model = Contact
+class UserContactBrowse(CommonListView):
+    model = UserContact
     
 class SkillBrowse(CommonListView):
     model = Skill

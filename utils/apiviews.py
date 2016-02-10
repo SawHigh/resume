@@ -4,6 +4,8 @@ from .base_views import WebListApiView, WebCreateApiView, WebUpdateApiView, WebD
 from .mixins import CurrentUserMixin, ManagerApiMixin, GetOwnerMixin, OwnerPassMixin, \
 CommonApiMixin, QueryFromUrlMixin
 
+class CommonListView(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+    pass
 
 class ManagerListView(
 #                      UserIdMixin, 
@@ -21,5 +23,11 @@ class ManagerUpdateView(OwnerPassMixin,WebUpdateApiView):
 class ManagerDeleteView(OwnerPassMixin,WebDeleteApiView):
     pass
 
-class CommonListView(CommonApiMixin, QueryFromUrlMixin, WebListApiView):
+class MustLoginCreateView(ManagerApiMixin, WebCreateApiView):
+    pass
+
+class MustLoginUpdateView(ManagerApiMixin, WebUpdateApiView):
+    pass
+
+class MustLoginDeleteView(ManagerApiMixin, WebDeleteApiView):
     pass
