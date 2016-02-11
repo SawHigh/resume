@@ -23,7 +23,11 @@ app.config(function ($routeProvider) {
     }) 
     .when('/profileUpdate/:edit', { 
       templateUrl: '/static/templates/backend/profile_update.html' 
-    })   
+    })
+    .when('/create/:model', { 
+      templateUrl: '/static/templates/backend/create.html' ,
+      controller:'createCtrl'
+    })     
     .otherwise({ 
       redirectTo: '/' 
     });
