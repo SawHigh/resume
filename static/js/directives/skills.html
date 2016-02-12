@@ -1,0 +1,27 @@
+    <div class="col-sm-6">
+	<div class="panel panel-success" ng-controller="skillsCtrl">
+	         <div class="panel-heading">Skill</div>
+	         <div class="panel-body table-responsive">
+	              <table class="table">
+	              	<thead>
+	              	    <tr>
+	              	    	<th>NAME</th>
+	              	    	<th>DEGREE</th>
+	              	    	<th>UPDATE</th>
+	              	    	<th>DELETE</th>
+	              	    </tr>	
+	              	</thead>
+	              	<tbody>
+	              	    <tr ng-repeat="skill in skills">
+	              	    	<td>{{skill.name}}</td>
+	              	    	<td>{{skill.degree}}</td>
+	              	    	<td><a href="#/update/skill/{{$index}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+	              	    	<td><a ng-click="delete(skill.id)"><i class="fa fa-times fa-2x"></i></a> </td>
+	              	    </tr>	
+	              	</tbody>
+                              </table>
+                              
+	         </div>
+	         <div class="panel-footer"><a href="#/create/skill" class="btn btn-success">NewSkill</a></div> 
+	 </div>
+    </div>

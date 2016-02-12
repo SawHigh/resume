@@ -125,12 +125,13 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
     }
     $scope.submit = function(){
           var link = "/sawhigh/api/"+currentModel+"/"+$scope.inputValue.id+"/update/";
-
-          $http.post(link,$scope.inputValue).success(function(data) {
-            console.log(link);
-            console.log($scope.inputValue);
-            console.log(data);
+          var postJson =  $scope.inputValue;
+          delete postJson.id;
+          delete postJson.user_id;
+          delete postJson.user;
+          $http.post(link,postJson).success(function(data) {
            window.location = "#/";
+           location.reload();
         }) 
     }
 }]);
