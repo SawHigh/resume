@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^api/project/(?P<pk>\d+)/$', ProjectBrowse.as_view()),  #pk:用户id
     url(r'^api/project/list/$', ProjectList.as_view()),
     url(r'^api/project/create/$', ProjectCreate.as_view()),
-    url(r'^api/project/(?P<pk>\d+)/update/$', ProjectUpdate.as_view()), #pk:对象id
+    url(r'^api/project/(?P<pk>\d+)/update/$', ProjectUpdate.as_view(), name="project_update"), #pk:对象id
     url(r'^api/project/(?P<pk>\d+)/delete/$', ProjectDelete.as_view()), #pk:对象id
     
     url(r'^api/profile/(?P<pk>\d+)/$', ProfileBrowse.as_view()),
