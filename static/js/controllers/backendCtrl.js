@@ -130,8 +130,30 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
           delete postJson.user_id;
           delete postJson.user;
           $http.post(link,postJson).success(function(data) {
-           window.location = "#/";
-           location.reload();
+            alert(data.status);
         }) 
+          location.reload();
+          window.location = "#/";
+
+    }
+}]);
+
+app.controller('fileUpload', ['$scope', 'Upload', '$timeout', function ($scope, Upload, $timeout) {
+    $scope.upload = function (dataUrl) {
+        Upload.upload({
+            url: '/sawhigh/api/profile/1/update/',
+            avatar: {
+                file: Upload.dataUrltoBlob(dataUrl)
+            },
+        }).then(function (response) {
+            $timeout(function () {
+                $scope.result = response.data;
+            });
+        }, function (response) {
+            if (response.status > 0) $scope.errorMsg = response.status 
+                + ': ' + response.data;
+        }, function (evt) {
+            $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+        });
     }
 }]);
