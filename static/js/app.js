@@ -27,7 +27,11 @@ app.config(function ($routeProvider) {
     .when('/create/:model', { 
       templateUrl: '/static/templates/backend/create.html' ,
       controller:'createCtrl'
-    })     
+    }) 
+    .when('/update/:model/:id', { 
+      templateUrl: '/static/templates/backend/update.html' ,
+      controller:'updateCtrl'
+    })    
     .otherwise({ 
       redirectTo: '/' 
     });

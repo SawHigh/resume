@@ -1,7 +1,7 @@
     <div class="col-sm-6">
 	<div class="panel panel-info" ng-controller="projectCtrl">
 	         <div class="panel-heading">Project</div>
-	         <div class="panel-body">
+	         <div class="panel-body  table-responsive">
 	              <table class="table">
 	              	<thead>
 	              	    <tr>
@@ -13,12 +13,12 @@
 	              	<tbody>
 	              	    <tr ng-repeat="project in projects">
 	              	    	<td>{{project.title}}</td>
-	              	    	<td><a href="#/update/project/{{project.id}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+	              	    	<td><a href="#/update/project/{{$index}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
 	              	    	<td><a ng-click="delete(project.id)"><i class="fa fa-times fa-2x"></i></a> </td>
 	              	    </tr>	
 	              	</tbody>
-                              </table>
-                              <a href="#/create/project" class="btn btn-primary">NewProjects</a>   
+                              </table>         
 	         </div>
+	         <div class="panel-footer"><a href="#/create/project" class="btn btn-info">NewProject</a>   </div> 
 	 </div>
     </div>

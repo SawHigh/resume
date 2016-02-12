@@ -16,44 +16,48 @@ var projectsModel = {
             source_code:""
       }
 }
+var skillsModel = {
+      inputFields:[
+        {label:"name",inputType:"text"},
+        {label:"degree",inputType:"select",values:[{label:"了解",value:"1"},{label:"熟悉",value:"2"},{label:"掌握",value:"3"},{label:"精通",value:"4"},{label:"专家",value:"5"}]}
+        ],
+        submitObject:{
+            name:"",
+            degree:""
+      }
+}
 
-app.controller('profileCtrl', ['$scope','$http','$routeParams', 'profile',function($scope,$http,$routeParams,profile) {
+var profileModel = {
+      inputFields:[
+        {label:"name",inputType:"text"},
+        {label:"introducion",inputType:"textarea"},
+        {label:"email",inputType:"text"},
+        {label:"birthday",inputType:"text"},
+        {label:"sex",inputType:"select",values:[{label:"Male",value:"Male"},{label:"Female",value:"Female"},{label:"Other",value:"Other"}]},
+        {label:"phone",inputType:"text"},
+        {label:"address",inputType:"text"}
+        ],
+        submitObject:{
+            name:"",
+            introducion:"",
+            email:"",
+            birthday:"",
+            sex:"",
+            phone:"",
+            address:""
+      }
+}
+
+app.controller('profileCtrl', ['$scope','$http', 'profile',function($scope,$http,profile) {
     profile.success(function(data) {
     $scope.profiles = data.data[0]; 
+    console.log($scope.profiles)
     }); 
-    
-    if($routeParams.edit == "edit"){
-        $scope.readonly = false;
-        $('#birth input').datepicker({
-          format: "yyyy-mm-dd"
-        });
-    }else{
-        $scope.readonly = true;
-    };
-
-    $scope.submit = function(){
-          var link = "/sawhigh/api/profile/"+$scope.profiles.id+"/update/";
-          var profileUpdate = {
-            name:$scope.profiles.name,
-            introducion:$scope.profiles.introducion,
-            email:$scope.profiles.email,
-            birthday:$scope.profiles.birthday,
-            sex:$scope.profiles.sex,
-            phone:$scope.profiles.phone,
-            address:$scope.profiles.address
-          };
-
-          $http.post(link,profileUpdate).success(function(data) {
-            alert(data.status);
-           window.location = "#/";
-        }) 
-    }
 }]);
 
 app.controller('projectCtrl', ['$scope','$http', 'projects',function($scope,$http,projects) {
     projects.success(function(data) {
     $scope.projects = data.data; 
-    console.log($scope.projects);
     });
     $scope.delete = function(id){
       var link = "/sawhigh/api/project/"+id+"/delete/";
@@ -63,19 +67,70 @@ app.controller('projectCtrl', ['$scope','$http', 'projects',function($scope,$htt
    })} ;
 }]);
 
+app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http,skills) {
+    skills.success(function(data) {
+    $scope.skills = data.data; 
+    });
+    $scope.delete = function(id){
+      var link = "/sawhigh/api/skill/"+id+"/delete/";
+     $http.post(link).success(function(data) {
+    alert(data.status);
+     location.reload();
+   })} ;
+}]);
+
 app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$http,$routeParams){
     var currentModel = $routeParams.model;
-    if(currentModel == "project"){
-         var link = "/sawhigh/api/project/create/";
-        $scope.inputs =  projectsModel.inputFields;
-        $scope.create =  projectsModel.submitObject;
-        };
+    var link = "/sawhigh/api/"+currentModel+"/create/";
+    switch(currentModel ){
+      case 'project':
+            $scope.inputs =  projectsModel.inputFields;
+            $scope.inputValue =  projectsModel.submitObject;
+     break;
+
+     case 'skill':
+            $scope.inputs =  skillsModel.inputFields;
+            $scope.inputValue =  skillsModel.submitObject;
+      break;
+    }
+
 $scope.submit= function(){
-  console.log($scope.create);
-  $http.post(link,$scope.create).success(function(data) {
+  $http.post(link,$scope.inputValue).success(function(data) {
     alert(data.status);
     window.location = "#/";
     location.reload();
   })
  };
+}]);
+
+app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$http,$routeParams) {
+    var currentModel = $routeParams.model;
+    var currentId = $routeParams.id;
+    var listLink = "/sawhigh/api/"+currentModel+"/list/";
+    $http.get(listLink) .success(function(data) {   
+              $scope.inputValue  = data.data[currentId];
+            })
+    switch(currentModel ){
+      case 'project':
+            $scope.inputs =  projectsModel.inputFields;
+     break;
+
+     case 'skill':
+            $scope.inputs =  skillsModel.inputFields;
+      break;
+
+      case 'profile':
+            $scope.inputs =  $scope.inputs =  profileModel.inputFields;
+      break;
+    }
+    $scope.submit = function(){
+          var link = "/sawhigh/api/"+currentModel+"/"+$scope.inputValue.id+"/update/";
+
+          $http.post(link,$scope.inputValue).success(function(data) {
+            console.log(link);
+            console.log($scope.inputValue);
+            console.log(data);
+           window.location = "#/";
+        }) 
+    }
 }]);

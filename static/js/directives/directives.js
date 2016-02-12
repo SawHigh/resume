@@ -12,7 +12,14 @@ app.directive('projects',function($routeParams) {
   };
 });
 
-app.directive('createField',function($compile) {
+app.directive('skills',function($routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: '/static/js/directives/skills.html'
+  };
+});
+
+app.directive('inputFields',function($compile) {
   return {
     restrict: 'A',
     replace: true,
@@ -20,16 +27,16 @@ app.directive('createField',function($compile) {
         var inputField = angular.element('<span>');
     switch(scope.input.inputType) {
           case 'textarea':
-            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><textarea type="text" class="form-control" placeholder="'+scope.input.label+'"  ng-model="create.'+scope.input.label+'"/></div>');
+            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><textarea type="text" class="form-control" placeholder="'+scope.input.label+'"  ng-model="inputValue.'+scope.input.label+'"/></div>');
             break;
           case 'text':
-            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="text" class="form-control" placeholder="'+scope.input.label+'" ng-model="create.'+scope.input.label+'"></div>');
+            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="text" class="form-control" placeholder="'+scope.input.label+'" ng-model="inputValue.'+scope.input.label+'"></div>');
             break;
             case 'select':
-            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><select ng-options=" value.value as value.label for value in input.values" class="form-control" placeholder="'+scope.input.label+'" ng-model="create.'+scope.input.label+'"></div>');
+            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><select ng-options=" value.value as value.label for value in input.values" class="form-control" placeholder="'+scope.input.label+'" ng-model="inputValue.'+scope.input.label+'"></div>');
             break;
             case 'date':
-            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="date" class="form-control" placeholder="'+scope.input.label+'" ng-model="create.'+scope.input.label+'"></div>');
+            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="date" class="form-control" placeholder="'+scope.input.label+'" ng-model="inputValue.'+scope.input.label+'"></div>');
             break;
     }  
     $compile(inputField)(scope);

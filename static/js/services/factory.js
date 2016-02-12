@@ -9,6 +9,12 @@ app.factory('projects', ['$http', function($http) {
   return $http.get('/sawhigh/api/project/list/') 
             .success(function(data) { 	
               return data; 
-              console.log('projects'+data)
+            })  
+}]);
+
+app.factory('skills', ['$http', function($http) { 
+  return $http.get('/sawhigh/api/skill/list/') 
+            .success(function(data) { 	
+              return data; 
             })  
 }]);
