@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.test.client import Client
-from resume.models import Contact, Profile, UserContact
+from resume.models import Contact, Profile, UserContact, Project
 import json
 from StringIO import StringIO
 from PIL import Image
@@ -27,6 +27,28 @@ class APITestCase(TestCase):
         j = UserContact.objects.create(user=self.user, contact=i, link='http://google.com')
         j.save()
         self.user_contact = j
+        k = Project.objects.create(user=self.user,
+                                   title = "aa",
+                                   condition = "bb",
+                                   description ="cc",
+                                   published_date = "1111-11-11",
+                                   link = "http://google.com",
+                                   source_code = "http://google.com",)
+        k.save()
+        self.project = k
+        
+    def test_project_update(self):
+        self.client.login(username='sawhigh', password='password')
+        i = self.project
+        data=json.dumps({ "title" : "bb",
+                        "condition" : "cc",
+                        "description" :"dd",
+                        "published_date" : "1112-12-12",
+                        "link" : "http://google2.com",
+                        "source_code" : "http://google2.com"})
+        response = self.client.post(reverse("project_update", args=[i.id]), data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
         
     def test_contact_create(self):
         data = {'name':'dealhigh', 'icon': self.get_image_file()}
