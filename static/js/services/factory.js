@@ -25,3 +25,10 @@ app.factory('educations', ['$http', function($http) {
               return data; 
             })  
 }]);
+
+app.factory('worklogs', ['$http', function($http) { 
+  return $http.get('/sawhigh/api/worllog/list/') 
+            .success(function(data) { 	
+              return data; 
+            })  
+}]);

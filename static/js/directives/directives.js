@@ -26,6 +26,13 @@ app.directive('educations',function($routeParams) {
   };
 });
 
+app.directive('worklogs',function($routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: '/static/js/directives/worklogs.html'
+  };
+});
+
 app.directive('inputFields',function($compile) {
   return {
     restrict: 'A',

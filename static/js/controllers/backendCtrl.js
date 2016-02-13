@@ -61,6 +61,21 @@ var educationsModel = {
       }
 }
 
+var worklogsModel = {
+      inputFields:[
+        {label:"job",inputType:"text"},
+        {label:"company",inputType:"text"},
+        {label:"start",inputType:"text"},
+        {label:"end",inputType:"text"}
+        ],
+        submitObject:{
+            job:"",
+            company:"",
+            start:"",
+            end:""
+      }
+}
+
 app.controller('profileCtrl', ['$scope','$http', 'profile',function($scope,$http,profile) {
     profile.success(function(data) {
     $scope.profiles = data.data[0]; 
@@ -104,6 +119,18 @@ app.controller('educationsCtrl', ['$scope','$http', 'educations',function($scope
    })} ;
 }]);
 
+app.controller('worklogsCtrl', ['$scope','$http', 'worklogs',function($scope,$http,worklogs) {
+    worklogs.success(function(data) {
+    $scope.worklogs = data.data; 
+    });
+    $scope.delete = function(id){
+      var link = "/sawhigh/api/worklog/"+id+"/delete/";
+     $http.post(link).success(function(data) {
+    alert(data.status);
+     location.reload();
+   })} ;
+}]);
+
 app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$http,$routeParams){
     var currentModel = $routeParams.model;
     var link = "/sawhigh/api/"+currentModel+"/create/";
@@ -120,6 +147,11 @@ app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$ht
       case 'education':
             $scope.inputs =  educationsModel .inputFields;
             $scope.inputValue =  educationsModel .submitObject;
+      break;
+
+      case 'worllog':
+            $scope.inputs =  worklogsModel .inputFields;
+            $scope.inputValue =  worklogsModel .submitObject;
       break;
     }
 
@@ -154,6 +186,9 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
 
        case 'education':
             $scope.inputs =   educationsModel .inputFields;
+      break;
+      case 'worllog':
+            $scope.inputs =   worklogsModel .inputFields;
       break;
      
     }

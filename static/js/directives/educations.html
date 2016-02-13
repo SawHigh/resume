@@ -6,13 +6,15 @@
 	              	<thead>
 	              	    <tr>
 	              	    	<th>TITLE</th>
+	              	    	<th>DEGREE</th>
 	              	    	<th>UPDATE</th>
 	              	    	<th>DELETE</th>
 	              	    </tr>	
 	              	</thead>
 	              	<tbody>
 	              	    <tr ng-repeat="education in educations">
-	              	    	<td>{{education.title}}</td>
+	              	    	<td>{{education.name}}</td>
+	              	    	<td>{{education.degree}}</td>
 	              	    	<td><a href="#/update/education/{{$index}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
 	              	    	<td><a ng-click="delete(education.id)"><i class="fa fa-times fa-2x"></i></a> </td>
 	              	    </tr>	
