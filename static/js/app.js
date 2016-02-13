@@ -14,7 +14,7 @@
     return cookieValue;
 }
 
-  var app = angular.module('resumeBackend', ['ngRoute','ngFileUpload', 'ngImgCrop']);
+  var app = angular.module('resumeBackend', ['ngRoute']);
 
 app.config(function ($routeProvider) { 
   $routeProvider 

@@ -1,0 +1,25 @@
+    <div class="col-sm-6">
+	<div class="panel panel-warning" ng-controller="educationsCtrl">
+	         <div class="panel-heading">Educations</div>
+	         <div class="panel-body table-responsive">
+	              <table class="table">
+	              	<thead>
+	              	    <tr>
+	              	    	<th>TITLE</th>
+	              	    	<th>UPDATE</th>
+	              	    	<th>DELETE</th>
+	              	    </tr>	
+	              	</thead>
+	              	<tbody>
+	              	    <tr ng-repeat="education in educations">
+	              	    	<td>{{education.title}}</td>
+	              	    	<td><a href="#/update/education/{{$index}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+	              	    	<td><a ng-click="delete(education.id)"><i class="fa fa-times fa-2x"></i></a> </td>
+	              	    </tr>	
+	              	</tbody>
+                              </table>
+                              
+	         </div>
+	         <div class="panel-footer"><a href="#/create/education" class="btn btn-warning">NewEducation</a></div> 
+	 </div>
+    </div>

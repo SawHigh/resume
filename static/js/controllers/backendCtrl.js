@@ -48,6 +48,19 @@ var profileModel = {
       }
 }
 
+var educationsModel = {
+      inputFields:[
+        {label:"title",inputType:"text"},
+        {label:"start",inputType:"text"},
+        {label:"end",inputType:"text"},
+        ],
+        submitObject:{
+            title:"",
+            start:"",
+            end:""
+      }
+}
+
 app.controller('profileCtrl', ['$scope','$http', 'profile',function($scope,$http,profile) {
     profile.success(function(data) {
     $scope.profiles = data.data[0]; 
@@ -79,6 +92,18 @@ app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http,s
    })} ;
 }]);
 
+app.controller('educationsCtrl', ['$scope','$http', 'educations',function($scope,$http,educations) {
+    educations.success(function(data) {
+    $scope.educations = data.data; 
+    });
+    $scope.delete = function(id){
+      var link = "/sawhigh/api/education/"+id+"/delete/";
+     $http.post(link).success(function(data) {
+    alert(data.status);
+     location.reload();
+   })} ;
+}]);
+
 app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$http,$routeParams){
     var currentModel = $routeParams.model;
     var link = "/sawhigh/api/"+currentModel+"/create/";
@@ -91,6 +116,10 @@ app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$ht
      case 'skill':
             $scope.inputs =  skillsModel.inputFields;
             $scope.inputValue =  skillsModel.submitObject;
+      break;
+      case 'education':
+            $scope.inputs =  educationsModel .inputFields;
+            $scope.inputValue =  educationsModel .submitObject;
       break;
     }
 
@@ -122,6 +151,11 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
       case 'profile':
             $scope.inputs =  $scope.inputs =  profileModel.inputFields;
       break;
+
+       case 'education':
+            $scope.inputs =   educationsModel .inputFields;
+      break;
+     
     }
     $scope.submit = function(){
           var link = "/sawhigh/api/"+currentModel+"/"+$scope.inputValue.id+"/update/";
@@ -135,25 +169,5 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
           location.reload();
           window.location = "#/";
 
-    }
-}]);
-
-app.controller('fileUpload', ['$scope', 'Upload', '$timeout', function ($scope, Upload, $timeout) {
-    $scope.upload = function (dataUrl) {
-        Upload.upload({
-            url: '/sawhigh/api/profile/1/update/',
-            avatar: {
-                file: Upload.dataUrltoBlob(dataUrl)
-            },
-        }).then(function (response) {
-            $timeout(function () {
-                $scope.result = response.data;
-            });
-        }, function (response) {
-            if (response.status > 0) $scope.errorMsg = response.status 
-                + ': ' + response.data;
-        }, function (evt) {
-            $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-        });
     }
 }]);

@@ -19,6 +19,13 @@ app.directive('skills',function($routeParams) {
   };
 });
 
+app.directive('educations',function($routeParams) {
+  return {
+    restrict: 'E',
+    templateUrl: '/static/js/directives/educations.html'
+  };
+});
+
 app.directive('inputFields',function($compile) {
   return {
     restrict: 'A',

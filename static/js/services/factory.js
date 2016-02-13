@@ -18,3 +18,10 @@ app.factory('skills', ['$http', function($http) {
               return data; 
             })  
 }]);
+
+app.factory('educations', ['$http', function($http) { 
+  return $http.get('/sawhigh/api/education/list/') 
+            .success(function(data) { 	
+              return data; 
+            })  
+}]);
