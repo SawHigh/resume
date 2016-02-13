@@ -130,12 +130,35 @@ section{
     border-bottom: 10px solid transparent;
 }
 
-.project i{
+.project .fa-mobile{
     color:#FFF;
     position: absolute;
     top:7px;
     left:-44px;
 }
+
+.project .publishedDate{
+    position: absolute;
+    top:42px;
+    left:-64px;
+}
+
+.project .fa-desktop{
+    color:#FFF;
+    position: absolute;
+    font-size: 20px;
+    top:12px;
+    left:-48px;
+}
+
+.project .fa-asterisk{
+    color:#FFF;
+    position: absolute;
+    font-size: 20px;
+    top:10px;
+    left:-47px;
+}
+
 
 .avatar{
      margin: 0 auto;
@@ -157,5 +180,14 @@ section{
 
 .table .fa-times{
     color:#d9534f;
+}
+
+.skillBtn{
+    width: 100%;
+    margin:5px 0;
+}
+
+.panel-footer i{
+    margin:0 5px;
 }
 

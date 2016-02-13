@@ -1,0 +1,25 @@
+    <div class="col-sm-6">
+	<div class="panel panel-primary" ng-controller="userListCtrl">
+	         <div class="panel-heading">user_List</div>
+	         <div class="panel-body  table-responsive">
+	              <table class="table">
+	                  <thead>
+	                      <tr>
+	                      	<th>Name</th>
+	                      	<th>Job</th>
+	                      	<th>Detail</th>
+	                      </tr>
+	                  </thead>
+	                  <tbody>
+	              	<tr ng-repeat="profile in profiles">
+	              		<td>{{profile.name}}</td>
+	              		<td></td>
+	              		<td><a href="#/resume/{{profile.id}}"><i class="fa fa-eye fa-2x"></i></a></td>      
+	              	</tr>
+	              	</tbody>
+                              </table>  
+	         </div>
+	         
+	          
+	 </div>
+    </div>

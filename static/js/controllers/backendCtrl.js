@@ -19,7 +19,7 @@ var projectsModel = {
 var skillsModel = {
       inputFields:[
         {label:"name",inputType:"text"},
-        {label:"degree",inputType:"select",values:[{label:"了解",value:"1"},{label:"熟悉",value:"2"},{label:"掌握",value:"3"},{label:"精通",value:"4"},{label:"专家",value:"5"}]}
+        {label:"degree",inputType:"select",values:[{label:"了解",value:"1"},{label:"掌握",value:"2"},{label:"熟悉",value:"3"},{label:"精通",value:"4"},{label:"专家",value:"5"}]}
         ],
         submitObject:{
             name:"",
@@ -200,9 +200,8 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
           delete postJson.user;
           $http.post(link,postJson).success(function(data) {
             alert(data.status);
+            window.location = "#/";
+             location.reload();
         }) 
-          location.reload();
-          window.location = "#/";
-
     }
 }]);

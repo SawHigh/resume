@@ -1,0 +1,119 @@
+<section class="heading">
+     	<div style="padding-left:30px;">
+     	    <h1>Hello!</h1>
+     	    <p>This is my resume</p>
+     	</div>
+     </section>	
+     <div class="container resume" ng-controller="resumeCtrl">
+  	<div class="col-sm-4 col-sm-push-8">
+  	      <div class="avatar">
+  	      	<img  class="img-circle img-thumbnail" src="{{profile.avatar}}"/>
+  	      </div>
+  	      <div class="panel panel-default sidebar">
+                           	 <ul class="list-group">
+                                       <li class="list-group-item">
+                                    <strong>{{profile.name}}</strong>                              
+                                    <p> Job</p>
+                                       </li>
+                                       <li class="list-group-item">
+                                       <p>Email:{{profile.email}}</p>
+                                       <p>address:{{profile.address}}</p>
+                                       <p>phone:{{profile.phone}}</p>
+                                       </li>
+<!--                                         <li class="list-group-item">
+                                       <p>Contact me on...</p>
+                                       <p>facebook</p>
+                                       <p>twitter</p>
+                                       <p>g+</p>
+                                       <p>github</p>
+                                       </li> -->
+                                      </ul>                                   
+                           </div>
+  	</div>
+  	<div class="col-sm-8 col-sm-pull-4 mainContent">
+                     <div class="panel panel-default">
+                           	 <ul class="list-group">
+                                       <li class="list-group-item">
+                                       <h2>INTRODUCTION</h2>                              
+                                     {{profile.introducion}}
+                                       </li>
+                                       <li class="list-group-item">
+                                    <h2>TECHNICAL SKILLS</h2>                              
+                                    <div class="row">
+                                    <div  class="col-sm-6" ng-repeat="skill in skills">
+                                    <button class="btn skillBtn" ng-class="{'btn-info':{{skill.degree == 2}},'btn-primary':{{skill.degree == 3}},'btn-success':{{skill.degree == 4}},'btn-danger':{{skill.degree == 5}}}" type="button"  ng-switch  on="{{skill.degree}}">
+                                        {{skill.name}}
+                                        <span class="badge" ng-switch-when="1">了解</span>
+                                        <span class="badge" ng-switch-when="2">掌握</span>
+                                        <span class="badge" ng-switch-when="3">熟悉</span>
+                                        <span class="badge" ng-switch-when="4">精通</span>
+                                        <span class="badge" ng-switch-when="5">专家</span>
+                                    </button>
+                                    </div>   
+                                    </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                      <h2>PROJECTS</h2> 
+                                      <div class="timeline">
+                                            <div class="line"></div>
+                                            <div>
+                                            	<div class="panel panel-primary project" ng-repeat="project in projects">
+                                            	<i class="fa" ng-class="{'fa-mobile fa-2x':{{project.condition == 'mobile'}},'fa-desktop':{{project.condition == 'desktop'}},'fa-asterisk':{{project.condition == 'both'}}}"></i>
+                                              <span class="label label-info publishedDate">{{project.published_date | date : 'yyyy-MM'}}</span>
+                                            	<div class="panel-heading">{{project.title}}</div>
+  			                        <div class="panel-body">
+                                                     {{project.description}}
+                                                     </div>
+                                                 <div class="panel-footer"><a href="{{project.link}}"><i class="fa fa-eye"></i></a><a href="{{project.source_code}}"><i class="fa fa-github"></i></a></div>
+                                                </div>
+                                            </div>
+                                     </div>  
+                                       </li>
+                                       <li class="list-group-item">
+                                       <h2>Work Experience</h2>                              
+                                     <div class="table-responsive">
+                                           <table class="table">
+                                                  <thead>
+                                                       <tr>
+                                                              <th>Company</th>
+                                                                <th>Job</th>
+                                                               <th>Start</th>
+                                                               <th>End</th>
+                                                        </tr> 
+                                                 </thead>
+                                                 <tbody>
+                                                       <tr ng-repeat="worklog in worklogs">
+                                                             <td>{{worklog.company}}</td>
+                                                             <td>{{worklog.job}}</td>
+                                                             <td>{{worklog.start}}</td>
+                                                             <td>{{worklog.end}}</td>
+                                                        </tr> 
+                                                </tbody>
+                                            </table>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                       <h2>EDUCATION</h2>                              
+                                      <div class="table-responsive">
+                                           <table class="table">
+                                                  <thead>
+                                                       <tr>
+                                                              <th>Tiele</th>
+                                                               <th>Start</th>
+                                                               <th>End</th>
+                                                        </tr> 
+                                                 </thead>
+                                                 <tbody>
+                                                       <tr ng-repeat="education in educations">
+                                                             <td>{{education.title}}</td>
+                                                             <td>{{education.start}}</td>
+                                                             <td>{{education.end}}</td>
+                                                        </tr> 
+                                                </tbody>
+                                            </table>
+                                          </div>
+                                       </li>
+                                      </ul>                                   
+                           </div>
+  	</div>
+     </div>
