@@ -1,0 +1,25 @@
+    <div class="col-sm-6">
+	<div class="panel panel-danger" ng-controller="worklogsCtrl">
+	         <div class="panel-heading">Worklogs</div>
+	         <div class="panel-body table-responsive">
+	              <table class="table">
+	              	<thead>
+	              	    <tr>
+	              	    	<th>Job</th>
+	              	    	<th>UPDATE</th>
+	              	    	<th>DELETE</th>
+	              	    </tr>	
+	              	</thead>
+	              	<tbody>
+	              	    <tr ng-repeat="worklog in worklogs">
+	              	    	<td>{{worklog.job}}</td>
+	              	    	<td><a href="#/update/worllog/{{$index}}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+	              	    	<td><a ng-click="delete(worklog.id)"><i class="fa fa-times fa-2x"></i></a> </td>
+	              	    </tr>	
+	              	</tbody>
+                              </table>
+                              
+	         </div>
+	         <div class="panel-footer"><a href="#/create/worllog" class="btn btn-danger">NewWorklog</a></div> 
+	 </div>
+    </div>
