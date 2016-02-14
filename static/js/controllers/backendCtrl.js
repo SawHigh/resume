@@ -124,7 +124,7 @@ app.controller('worklogsCtrl', ['$scope','$http', 'worklogs',function($scope,$ht
     $scope.worklogs = data.data; 
     });
     $scope.delete = function(id){
-      var link = "/sawhigh/api/worklog/"+id+"/delete/";
+      var link = "/sawhigh/api/worllog/"+id+"/delete/";
      $http.post(link).success(function(data) {
     alert(data.status);
      location.reload();

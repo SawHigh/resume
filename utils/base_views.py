@@ -109,9 +109,9 @@ class WebListApiView(WebApiView):
                     if type(j) == list:
                         a = [i]
                         a.extend(j)
-                        dic.update({j[0]:str(reduce(lambda x, y:getattr(x, y), a))})
+                        dic.update({j[0]:unicode(reduce(lambda x, y:getattr(x, y), a))}, encoding='utf-8')
                     else:
-                        dic.update({j:str(getattr(i, j))})
+                        dic.update({j:unicode(getattr(i, j))}, encoding='utf-8')
                 except:
                     raise ModelNeededError("Model %s May Have Not Field %s" % (self.model.__name__, j))
             data.append(dic)
