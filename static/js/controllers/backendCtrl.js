@@ -35,7 +35,7 @@ var profileModel = {
         {label:"birthday",inputType:"text"},
         {label:"sex",inputType:"select",values:[{label:"Male",value:"Male"},{label:"Female",value:"Female"},{label:"Other",value:"Other"}]},
         {label:"phone",inputType:"text"},
-        {label:"address",inputType:"text"}
+        {label:"address",inputType:"text"},
         ],
         submitObject:{
             name:"",
@@ -204,4 +204,16 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
              location.reload();
         }) 
     }
+}]);
+
+app.controller('uploadCtrl', ['$scope', 'fileUpload', function($scope, fileUpload){
+    
+    $scope.uploadFile = function(id){
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+        var uploadUrl = "/sawhigh/api/profile/avatar/"+1+"/update/";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+    
 }]);

@@ -32,3 +32,19 @@ app.factory('worklogs', ['$http', function($http) {
               return data; 
             })  
 }]);
+
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('avatar', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(data){
+          console.log(data);
+        })
+        .error(function(){
+        });
+    }
+}]);

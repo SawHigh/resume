@@ -52,9 +52,28 @@ app.directive('inputFields',function($compile) {
             case 'date':
             inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="date" class="form-control" placeholder="'+scope.input.label+'" ng-model="inputValue.'+scope.input.label+'"></div>');
             break;
+            case 'file':
+            inputField.append('<label  class="col-sm-4 control-label">{{input.label | uppercase}}</label><div class="col-sm-8"><input type="file" class="form-control" placeholder="'+scope.input.label+'" ng-model="inputValue.'+scope.input.label+'"></div>');
+            break;
     }  
     $compile(inputField)(scope);
     element.append(inputField);
     }
   }
 });
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
