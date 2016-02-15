@@ -2,7 +2,7 @@
 from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponse
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.middleware.csrf import rotate_token
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -205,6 +205,8 @@ class WebCreateApiView(WebApiView):
         try:
             dic = self.parse(request)
             dic.update(self.extend_data(request))
+            if "encoding" in dic:
+                del dic["encoding"]
             i = self.model.objects.create(**dic)
             i.save()
             return {"status":"success"}
@@ -232,11 +234,13 @@ class WebUpdateApiView(WebApiView):
         try:
             dic = self.parse(request)
             dic.update(self.extend_dic)
+            if "encoding" in dic:
+                del dic["encoding"]
             pk = self.kwargs.get(self.pk_url_kwarg)
             query_set = self.model.objects.filter(pk=pk)
             query_set.update(**dic)
             return {"status":"success"}
-        except:# from .mixins import *
+        except:
             return {"status":"fail", "reason":"invalid struture2"}
         
 class WebDeleteApiView(WebApiView):

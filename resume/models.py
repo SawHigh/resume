@@ -18,7 +18,7 @@ class Project(models.Model):
     condition = models.CharField(max_length=10, choices=conditions, null=True)
     description = models.TextField()
     published_date = models.DateField(null=True, blank=True)
-    link = models.URLField()
+    link = models.URLField(null=True, blank=True)
     source_code = models.URLField(null=True, blank=True)
     
 class Profile(models.Model):
