@@ -86,7 +86,7 @@
                                                              <td>{{worklog.company}}</td>
                                                              <td>{{worklog.job}}</td>
                                                              <td>{{worklog.start}}</td>
-                                                             <td>{{worklog.end}}</td>
+                                                             <td>{{worklog.end == 'None' ? '至今' : worklog.end}}</td>
                                                         </tr> 
                                                 </tbody>
                                             </table>
