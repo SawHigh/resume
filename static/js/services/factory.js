@@ -33,6 +33,15 @@ app.factory('worklogs', ['$http', function($http) {
             })  
 }]);
 
+app.factory('userList', ['$http', function($http) { 
+  return $http.get('/sawhigh/api/user/') 
+            .success(function(data) {   
+              return data; 
+            })  
+}]);
+
+
+
 app.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, uploadUrl){
         var fd = new FormData();

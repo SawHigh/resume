@@ -1,7 +1,7 @@
-app.controller('userListCtrl', ['$scope','profile',function($scope,profile) {
-    profile.success(function(data) {
-    $scope.profiles = data.data; 
-    console.log($scope.profiles)
+app.controller('userListCtrl', ['$scope','userList',function($scope,userList) {
+    userList.success(function(data) {
+    $scope.userLists = data.data; 
+    console.log($scope)
     }); 
 }]);
 

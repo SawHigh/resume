@@ -6,15 +6,13 @@
 	                  <thead>
 	                      <tr>
 	                      	<th>Name</th>
-	                      	<th>Job</th>
 	                      	<th>Detail</th>
 	                      </tr>
 	                  </thead>
 	                  <tbody>
-	              	<tr ng-repeat="profile in profiles">
-	              		<td>{{profile.name}}</td>
-	              		<td></td>
-	              		<td><a href="#/resume/{{profile.id}}"><i class="fa fa-eye fa-2x"></i></a></td>      
+	              	<tr ng-repeat="userList in userLists">
+	              		<td>{{userList.name}}</td>
+	              		<td><a href="#/resume/{{userList.id}}"><i class="fa fa-eye fa-2x"></i></a></td>      
 	              	</tr>
 	              	</tbody>
                               </table>  
