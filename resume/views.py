@@ -32,7 +32,8 @@ class UserList(CommonApiMixin, WebListApiView):
     model = User
     fields = [
               "id",
-              "username"
+              ["profile", "id"],
+              ["profile", "name"]
               ]
 
 class ContactList(MustLoginListView):

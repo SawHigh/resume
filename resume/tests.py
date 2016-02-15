@@ -18,15 +18,14 @@ class APITestCase(TestCase):
         file_obj.seek(0)
         return File(file_obj, name=name)
     
+    
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user('sawhigh', 'sawhigh@example.com', 'password')
         i = Contact.objects.create(name="abc", icon=self.get_image_file())
-        i.save()
-        self.contact = i
+        i.save()        
         j = UserContact.objects.create(user=self.user, contact=i, link='http://google.com')
-        j.save()
-        self.user_contact = j
+        j.save()        
         k = Project.objects.create(user=self.user,
                                    title = "aa",
                                    condition = "bb",
@@ -35,7 +34,18 @@ class APITestCase(TestCase):
                                    link = "http://google.com",
                                    source_code = "http://google.com",)
         k.save()
-        self.project = k
+        l = Profile.objects.create(user=self.user)
+        l.save()
+        self.contact = i
+        self.user_contact = j
+        self.project = k       
+        self.profile = l
+        
+    def test_user_list(self):
+
+        response = self.client.get(reverse("user_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "profile_name")
         
     def test_project_update(self):
         self.client.login(username='sawhigh', password='password')
@@ -79,11 +89,7 @@ class APITestCase(TestCase):
         self.assertContains(response, "link")
         
     def testlist(self):
-        self.client.login(username='sawhigh', password='password')
-        user = self.user
-        i = Profile.objects.create(user=user, avatar=self.get_image_file())
-        i.save()
-        
+        self.client.login(username='sawhigh', password='password')       
         response = self.client.get(reverse("profile_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "name")
@@ -105,13 +111,9 @@ class APITestCase(TestCase):
         self.assertContains(response, "success")
         
     def testupload(self):   
-        data = {'avatar': self.get_image_file()}
-        
+        data = {'avatar': self.get_image_file()}     
         self.client.login(username='sawhigh', password='password')
-        user = User.objects.get(username='sawhigh')
-        i = Profile.objects.create(user=user)
-        i.save()
-        
+        i = self.profile
         response = self.client.post(reverse_lazy("avatar_update", args=[i.id]), data=data)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")

@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     
     url(r'^login/$', log_in, name='login'),
     
-    url(r'^api/user/$', UserList.as_view()),
+    url(r'^api/user/$', UserList.as_view(),name="user_list"),
     
     url(r'^api/contact/list/$', ContactList.as_view(), name="contact_list"),
     url(r'^api/contact/create/$', ContactCreate.as_view(), name="contact_create"),

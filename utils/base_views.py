@@ -2,7 +2,8 @@
 from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponse
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError,\
+    ObjectDoesNotExist
 from django.middleware.csrf import rotate_token
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -105,15 +106,18 @@ class WebListApiView(WebApiView):
             dic = {}
             for j in self.get_fields():
         
-                try:
-                    if type(j) == list:
-                        a = [i]
-                        a.extend(j)
-                        dic.update({j[0]:unicode(reduce(lambda x, y:getattr(x, y), a))}, encoding='utf-8')
-                    else:
-                        dic.update({j:unicode(getattr(i, j))}, encoding='utf-8')
-                except:
-                    raise ModelNeededError("Model %s May Have Not Field %s" % (self.model.__name__, j))
+#                 try:
+                if type(j) == list:
+                    a = [i]
+                    a.extend(j)
+                    try:
+                        dic.update({"_".join(j):unicode(reduce(lambda x, y:getattr(x, y), a))}, encoding='utf-8')
+                    except ObjectDoesNotExist:
+                        pass
+                else:
+                    dic.update({j:unicode(getattr(i, j))}, encoding='utf-8')
+#                 except:
+#                     raise ModelNeededError("Model %s May Have Not Field %s" % (self.model.__name__, j))
             data.append(dic)
         return data
                 
