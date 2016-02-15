@@ -79,7 +79,6 @@ var worklogsModel = {
 app.controller('profileCtrl', ['$scope','$http', 'profile',function($scope,$http,profile) {
     profile.success(function(data) {
     $scope.profiles = data.data[0]; 
-    console.log($scope.profiles)
     }); 
 }]);
 
@@ -95,15 +94,19 @@ app.controller('projectCtrl', ['$scope','$http', 'projects',function($scope,$htt
    })} ;
 }]);
 
-app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http,skills) {
-    skills.success(function(data) {
-    $scope.skills = data.data; 
-    });
+app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http) {
+    var skillsUpdate = function(){
+      $http.get('/sawhigh/api/skill/list/') 
+            .success(function(data) {   
+              $scope.skills = data.data;
+            })  
+          };
+      skillsUpdate();
     $scope.delete = function(id){
       var link = "/sawhigh/api/skill/"+id+"/delete/";
      $http.post(link).success(function(data) {
     alert(data.status);
-     location.reload();
+    skillsUpdate();
    })} ;
 }]);
 
@@ -157,9 +160,14 @@ app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$ht
 
 $scope.submit= function(){
   $http.post(link,$scope.inputValue).success(function(data) {
+    console.log($scope.inputValue);
     alert(data.status);
-    window.location = "#/";
-    location.reload();
+    $http.get('/sawhigh/api/'+currentModel+'/list/') 
+            .success(function(data) {   
+              $scope[currentModel+'s'] = data.data;              
+              window.location = "#/";
+            })  
+    console.log($scope);        
   })
  };
 }]);
@@ -200,9 +208,13 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
           delete postJson.user;
           $http.post(link,postJson).success(function(data) {
             alert(data.status);
-            window.location = "#/";
-             location.reload();
-        }) 
+            $http.get('/sawhigh/api/'+currentModel+'/list/') 
+            .success(function(data) {   
+              $scope[currentModel+'s'] = data.data;
+              console.log($scope[currentModel+'s'] );
+              window.location = "#/";
+            }) 
+        })
     }
 }]);
 

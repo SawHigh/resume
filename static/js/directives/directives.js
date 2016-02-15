@@ -58,6 +58,7 @@ app.directive('inputFields',function($compile) {
     }  
     $compile(inputField)(scope);
     element.append(inputField);
+    console.log(scope);
     }
   }
 });
