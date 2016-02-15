@@ -42,8 +42,7 @@
                                        <li class="list-group-item">
                                     <h2>技能</h2>                              
                                     <div class="row">
-                                    <div  class="col-sm-6" ng-repeat="skill in skills">
-                                    <button class="btn skillBtn" ng-class="{'btn-info':{{skill.degree == 2}},'btn-primary':{{skill.degree == 3}},'btn-success':{{skill.degree == 4}},'btn-danger':{{skill.degree == 5}}}" type="button"  ng-switch  on="{{skill.degree}}">
+                                    <button class="btn skillBtn" ng-class="{'btn-info':{{skill.degree == 2}},'btn-primary':{{skill.degree == 3}},'btn-success':{{skill.degree == 4}},'btn-danger':{{skill.degree == 5}}}" type="button"  ng-switch  on="{{skill.degree}}" ng-repeat="skill in skills">
                                         {{skill.name}}
                                         <span class="badge" ng-switch-when="1">了解</span>
                                         <span class="badge" ng-switch-when="2">掌握</span>
@@ -51,7 +50,6 @@
                                         <span class="badge" ng-switch-when="4">精通</span>
                                         <span class="badge" ng-switch-when="5">专家</span>
                                     </button>
-                                    </div>   
                                     </div>
                                        </li>
                                        <li class="list-group-item">
