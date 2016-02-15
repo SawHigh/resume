@@ -107,7 +107,7 @@
                                                        <tr ng-repeat="education in educations">
                                                              <td>{{education.title}}</td>
                                                              <td>{{education.start}}</td>
-                                                             <td>{{education.end}}</td>
+                                                             <td>{{education.end == 'None' ? '至今' : education.end}}</td>
                                                         </tr> 
                                                 </tbody>
                                             </table>
