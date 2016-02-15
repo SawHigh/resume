@@ -1,25 +1,25 @@
 <section class="heading">
      	<div style="padding-left:30px;">
-     	    <h1>Hello!</h1>
-     	    <p>This is my resume</p>
+     	    <h1>你好!</h1>
+     	    <p>欢迎浏览我的简历</p>
      	</div>
      </section>	
      <div class="container resume" ng-controller="resumeCtrl">
   	<div class="col-sm-4 col-sm-push-8">
   	      <div class="avatar">
-  	      	<img  class="img-circle img-thumbnail" ng-src="/media/{{profile.avatar}}" />
+  	      	<img  class="img-thumbnail" ng-src="/media/{{profile.avatar}}" />
   	      </div>
   	      <div class="panel panel-default sidebar">
                            	 <ul class="list-group">
                                        <li class="list-group-item">
-                                    <strong>{{profile.name}}</strong>  
-                                    <p>Sex:{{profile.sex}}</p> 
-                                    <p>Birth:{{profile.birthday | date: 'yyyy-MM'}}</p>                         
+                                    <p>姓名:{{profile.name}}</p>  
+                                    <p>性别:{{profile.sex}}</p> 
+                                    <p>出生年月:{{profile.birthday | date: 'yyyy-MM'}}</p>                         
                                     <!-- <p> Job</p> -->
                                        </li>
                                        <li class="list-group-item">
-                                       <p>Email:{{profile.email}}</p>
-                                       <p>address:{{profile.address}}</p>
+                                       <p>电子邮件:{{profile.email}}</p>
+                                       <p>地址:{{profile.address}}</p>
                                        <p>phone:{{profile.phone}}</p>
                                        </li>
 <!--                                         <li class="list-group-item">
@@ -36,11 +36,11 @@
                      <div class="panel panel-default">
                            	 <ul class="list-group">
                                        <li class="list-group-item">
-                                       <h2>INTRODUCTION</h2>                              
+                                       <h2>自我简介</h2>                              
                                      {{profile.introducion}}
                                        </li>
                                        <li class="list-group-item">
-                                    <h2>TECHNICAL SKILLS</h2>                              
+                                    <h2>技能</h2>                              
                                     <div class="row">
                                     <div  class="col-sm-6" ng-repeat="skill in skills">
                                     <button class="btn skillBtn" ng-class="{'btn-info':{{skill.degree == 2}},'btn-primary':{{skill.degree == 3}},'btn-success':{{skill.degree == 4}},'btn-danger':{{skill.degree == 5}}}" type="button"  ng-switch  on="{{skill.degree}}">
@@ -55,7 +55,7 @@
                                     </div>
                                        </li>
                                        <li class="list-group-item">
-                                      <h2>PROJECTS</h2> 
+                                      <h2>项目经验</h2> 
                                       <div class="timeline">
                                             <div class="line"></div>
                                             <div>
@@ -72,15 +72,15 @@
                                      </div>  
                                        </li>
                                        <li class="list-group-item">
-                                       <h2>Work Experience</h2>                              
+                                       <h2>工作经验</h2>                              
                                      <div class="table-responsive">
                                            <table class="table">
                                                   <thead>
                                                        <tr>
-                                                              <th>Company</th>
-                                                                <th>Job</th>
-                                                               <th>Start</th>
-                                                               <th>End</th>
+                                                              <th>工作公司</th>
+                                                                <th>职位</th>
+                                                               <th>开始日期</th>
+                                                               <th>结束日期</th>
                                                         </tr> 
                                                  </thead>
                                                  <tbody>
@@ -95,14 +95,14 @@
                                           </div>
                                        </li>
                                        <li class="list-group-item">
-                                       <h2>EDUCATION</h2>                              
+                                       <h2>毕业院校</h2>                              
                                       <div class="table-responsive">
                                            <table class="table">
                                                   <thead>
                                                        <tr>
-                                                              <th>Tiele</th>
-                                                               <th>Start</th>
-                                                               <th>End</th>
+                                                              <th>学校</th>
+                                                               <th>开始日期</th>
+                                                               <th>结束日期</th>
                                                         </tr> 
                                                  </thead>
                                                  <tbody>

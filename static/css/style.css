@@ -80,11 +80,11 @@ section{
 
 @media (min-width: 768px){
     section{
-            padding: 38px 0 94px;
+            padding: 10px 0 360px;
     }
 
     .resume{
-    margin-top:-60px;
+    margin-top:-360px;
 }
 }
 
