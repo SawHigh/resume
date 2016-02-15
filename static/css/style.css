@@ -183,11 +183,14 @@ section{
 }
 
 .skillBtn{
-    width: 100%;
-    margin:5px 0;
+    margin:5px;
 }
 
 .panel-footer i{
     margin:0 5px;
+}
+
+.panel-footer .btn{
+     margin:0 5px;
 }
 
