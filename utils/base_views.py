@@ -90,7 +90,7 @@ class WebListApiView(WebApiView):
         except:
             raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
-            return query_set.order_by("-s" % request.GET['sort'])
+            return query_set.order_by("-%s" % request.GET['sort'])
         else:
             return query_set
     
