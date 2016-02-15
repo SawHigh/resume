@@ -202,11 +202,15 @@ class WebCreateApiView(WebApiView):
             raise ModelNeededError('Pass Me A Fucking Model')
         if not self.check_post(request):
             return {"status":"fail", "reason":"invalid struture1"}
-        try:
-            dic = self.parse(request)
-            dic.update(self.extend_data(request))
-            if "encoding" in dic:
-                del dic["encoding"]
+        
+        dic = self.parse(request)
+        for i in dic.keys():
+            if not dic[i]:
+                del dic[i]
+        dic.update(self.extend_data(request))
+        if "encoding" in dic:
+            del dic["encoding"]
+        try:   
             i = self.model.objects.create(**dic)
             i.save()
             return {"status":"success"}
