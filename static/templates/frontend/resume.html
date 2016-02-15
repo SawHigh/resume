@@ -57,7 +57,7 @@
                                       <div class="timeline">
                                             <div class="line"></div>
                                             <div>
-                                            	<div class="panel panel-primary project" ng-repeat="project in projects">
+                                            	<div class="panel panel-primary project" ng-repeat="project in projects | orderBy:'published_date' : true">
                                             	<i class="fa" ng-class="{'fa-mobile fa-2x':{{project.condition == 'mobile'}},'fa-desktop':{{project.condition == 'desktop'}},'fa-asterisk':{{project.condition == 'both'}}}"></i>
                                               <span class="label label-info publishedDate">{{project.published_date | date : 'yyyy-MM'}}</span>
                                             	<div class="panel-heading">{{project.title}}</div>
