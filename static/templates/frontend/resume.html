@@ -7,13 +7,15 @@
      <div class="container resume" ng-controller="resumeCtrl">
   	<div class="col-sm-4 col-sm-push-8">
   	      <div class="avatar">
-  	      	<img  class="img-circle img-thumbnail" src="{{profile.avatar}}"/>
+  	      	<img  class="img-circle img-thumbnail" ng-src="/media/{{profile.avatar}}" />
   	      </div>
   	      <div class="panel panel-default sidebar">
                            	 <ul class="list-group">
                                        <li class="list-group-item">
-                                    <strong>{{profile.name}}</strong>                              
-                                    <p> Job</p>
+                                    <strong>{{profile.name}}</strong>  
+                                    <p>Sex:{{profile.sex}}</p> 
+                                    <p>Birth:{{profile.birthday | date: 'yyyy-MM'}}</p>                         
+                                    <!-- <p> Job</p> -->
                                        </li>
                                        <li class="list-group-item">
                                        <p>Email:{{profile.email}}</p>
