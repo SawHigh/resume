@@ -1,7 +1,7 @@
-app.controller('userListCtrl', ['$scope','userList',function($scope,userList) {
+app.controller('userListCtrl', ['$rootScope','$scope','userList',function($rootScope,$scope,userList) {
     userList.success(function(data) {
     $scope.userLists = data.data; 
-    console.log($scope)
+    $rootScope.title = "简历列表";
     }); 
 }]);
 
@@ -10,7 +10,7 @@ app.controller('resumeCtrl', ['$rootScope','$scope','$http','$routeParams',funct
     $http.get('/sawhigh/api/profile/'+id+'/') 
             .success(function(data) { 	
               $scope.profile = data.data[0];
-              $rootScope.title = data.data[0].name;
+              $rootScope.title = data.data[0].name+'的简历';
               console.log($rootScope.title);
             })  
 
