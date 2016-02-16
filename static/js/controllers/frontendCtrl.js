@@ -5,11 +5,13 @@ app.controller('userListCtrl', ['$scope','userList',function($scope,userList) {
     }); 
 }]);
 
-app.controller('resumeCtrl', ['$scope','$http','$routeParams',function($scope,$http,$routeParams) {
+app.controller('resumeCtrl', ['$rootScope','$scope','$http','$routeParams',function($rootScope,$scope,$http,$routeParams) {
     var id = $routeParams.id;
     $http.get('/sawhigh/api/profile/'+id+'/') 
             .success(function(data) { 	
               $scope.profile = data.data[0];
+              $rootScope.title = data.data[0].name;
+              console.log($rootScope.title);
             })  
 
      $http.get('/sawhigh/api/skill/'+id+'/') 
