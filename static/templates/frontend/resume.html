@@ -1,10 +1,11 @@
+<div ng-controller="resumeCtrl">
 <section class="heading">
      	<div style="padding-left:30px;">
-     	    <h1>你好!</h1>
-     	    <p>欢迎浏览我的简历</p>
+     	    <h2>你好!</h2>
+     	    <p>欢迎浏览{{profile.name}}的简历</p>
      	</div>
      </section>	
-     <div class="container resume" ng-controller="resumeCtrl">
+     <div class="container resume">
   	<div class="col-sm-4 col-sm-push-8">
   	      <div class="avatar">
   	      	<img  class="img-thumbnail" ng-src="/media/{{profile.avatar}}" />
@@ -117,3 +118,4 @@
                            </div>
   	</div>
      </div>
+</div>     
