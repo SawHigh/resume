@@ -82,19 +82,23 @@ app.controller('profileCtrl', ['$scope','$http', 'profile',function($scope,$http
     }); 
 }]);
 
-app.controller('projectCtrl', ['$scope','$http', 'projects',function($scope,$http,projects) {
-    projects.success(function(data) {
-    $scope.projects = data.data; 
-    });
+app.controller('projectCtrl', ['$scope','$http',function($scope,$http) {
+     var projectsUpdate = function(){
+      $http.get('/sawhigh/api/project/list/') 
+            .success(function(data) {   
+              $scope.projects = data.data;
+            })  
+          };
+          projectsUpdate();
     $scope.delete = function(id){
       var link = "/sawhigh/api/project/"+id+"/delete/";
      $http.post(link).success(function(data) {
     alert(data.status);
-     location.reload();
+    projectsUpdate();
    })} ;
 }]);
 
-app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http) {
+app.controller('skillsCtrl', ['$scope','$http',function($scope,$http) {
     var skillsUpdate = function(){
       $http.get('/sawhigh/api/skill/list/') 
             .success(function(data) {   
@@ -110,27 +114,35 @@ app.controller('skillsCtrl', ['$scope','$http', 'skills',function($scope,$http) 
    })} ;
 }]);
 
-app.controller('educationsCtrl', ['$scope','$http', 'educations',function($scope,$http,educations) {
-    educations.success(function(data) {
-    $scope.educations = data.data; 
-    });
+app.controller('educationsCtrl', ['$scope','$http',function($scope,$http) {
+    var educationsUpdate = function(){
+      $http.get('/sawhigh/api/education/list/') 
+            .success(function(data) {   
+              $scope.educations = data.data;
+            })  
+          };
+          educationsUpdate();
     $scope.delete = function(id){
       var link = "/sawhigh/api/education/"+id+"/delete/";
      $http.post(link).success(function(data) {
     alert(data.status);
-     location.reload();
+   educationsUpdate();
    })} ;
 }]);
 
-app.controller('worklogsCtrl', ['$scope','$http', 'worklogs',function($scope,$http,worklogs) {
-    worklogs.success(function(data) {
-    $scope.worklogs = data.data; 
-    });
+app.controller('worklogsCtrl', ['$scope','$http',function($scope,$http) {
+    var worklogsUpdate = function(){
+      $http.get('/sawhigh/api/worllog/list/') 
+            .success(function(data) {   
+              $scope.worklogs = data.data;
+            })  
+          };
+      worklogsUpdate();
     $scope.delete = function(id){
       var link = "/sawhigh/api/worllog/"+id+"/delete/";
      $http.post(link).success(function(data) {
     alert(data.status);
-     location.reload();
+     worklogsUpdate();
    })} ;
 }]);
 
@@ -144,8 +156,9 @@ app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$ht
      break;
 
      case 'skill':
-            $scope.inputs =  skillsModel.inputFields;
             $scope.inputValue =  skillsModel.submitObject;
+            $scope.inputs =  skillsModel.inputFields;
+            
       break;
       case 'education':
             $scope.inputs =  educationsModel .inputFields;
@@ -161,13 +174,19 @@ app.controller('createCtrl',['$scope','$http','$routeParams',function($scope,$ht
 $scope.submit= function(){
   $http.post(link,$scope.inputValue).success(function(data) {
     console.log($scope.inputValue);
-    alert(data.status);
-    $http.get('/sawhigh/api/'+currentModel+'/list/') 
+    if(data.status == 'success'){
+      alert(data.status);
+      $http.get('/sawhigh/api/'+currentModel+'/list/') 
             .success(function(data) {   
               $scope[currentModel+'s'] = data.data;              
               window.location = "#/";
+              location.reload();
             })  
-    console.log($scope);        
+    }else{
+      alert(data.status+','+data.reason);
+    }
+    
+           
   })
  };
 }]);
@@ -207,13 +226,17 @@ app.controller('updateCtrl', ['$scope','$http','$routeParams',function($scope,$h
           delete postJson.user_id;
           delete postJson.user;
           $http.post(link,postJson).success(function(data) {
-            alert(data.status);
+            if(data.status == 'success'){
+              alert(data.status);
             $http.get('/sawhigh/api/'+currentModel+'/list/') 
             .success(function(data) {   
               $scope[currentModel+'s'] = data.data;
               console.log($scope[currentModel+'s'] );
               window.location = "#/";
-            }) 
+            })
+            }else{
+              alert(data.status+','+data.reason);
+            }            
         })
     }
 }]);
