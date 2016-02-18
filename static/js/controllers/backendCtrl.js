@@ -247,7 +247,7 @@ app.controller('uploadCtrl', ['$scope', 'fileUpload', function($scope, fileUploa
         var file = $scope.myFile;
         console.log('file is ' );
         console.dir(file);
-        var uploadUrl = "/sawhigh/api/profile/avatar/"+1+"/update/";
+        var uploadUrl = "/sawhigh/api/profile/avatar/"+id+"/update/";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
     
