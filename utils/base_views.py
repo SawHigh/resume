@@ -87,10 +87,10 @@ class WebListApiView(WebApiView):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
 #         try:
-        if self.query(request):
-            query_set = self.model.objects.filter(**self.query(request))
-        else:
+        if not self.query(request):
             query_set = self.model.objects.all()
+        else:          
+            query_set = self.model.objects.filter(**self.query(request))
 #         except:
 #             raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
