@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied, ValidationError,\
-    ObjectDoesNotExist
+    ObjectDoesNotExist, FieldError
 from django.middleware.csrf import rotate_token
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -86,13 +86,14 @@ class WebListApiView(WebApiView):
     def sort_list(self, request):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-#         try:
+#         
         if not self.query(request):
             query_set = self.model.objects.all()
-        else:          
-            query_set = self.model.objects.filter(**self.query(request))
-#         except:
-#             raise ModelNeededError('query condition does not match model fields')       
+        else:
+            try:
+                query_set = self.model.objects.filter(**self.query(request))
+            except FieldError:
+                raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
             return query_set.order_by("-%s" % request.GET['sort'])
         return query_set
@@ -141,8 +142,11 @@ class WebListApiView(WebApiView):
             return items
         
     def do_get(self, request, *args, **kwargs):
-        return {'status':'success','data':self.the_page(request)}
-            
+        try:
+            return {'status':'success','data':self.the_page(request)}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
+        
 class WebDetailApiView(SingleObjectMixin, WebApiView):
     """
     必须参数：
@@ -174,14 +178,17 @@ class WebDetailApiView(SingleObjectMixin, WebApiView):
     def do_get(self, request, *args, **kwargs):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-        obj = self.get_object()
-        data = {}
-        for i in self.get_fields():
-            if type(i) == list:
-                data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
-            else:   
-                data.update({i:getattr(obj, i)})
-        return {'status':'success','data':data}
+        try:
+            obj = self.get_object()
+            data = {}
+            for i in self.get_fields():
+                if type(i) == list:
+                    data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
+                else:   
+                    data.update({i:getattr(obj, i)})
+            return {'status':'success','data':data}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
     
 class WebCreateApiView(WebApiView):  
     """
@@ -220,8 +227,8 @@ class WebCreateApiView(WebApiView):
             i = self.model.objects.create(**dic)
             i.save()
             return {"status":"success"}
-        except:
-            return {"status":"fail", "reason":"invalid struture2"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
         
 class WebUpdateApiView(WebApiView):
     """
@@ -253,8 +260,8 @@ class WebUpdateApiView(WebApiView):
         try:
             query_set.update(**dic)
             return {"status":"success"}
-        except:
-            return {"status":"fail", "reason":"invalid struture"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
         
 class WebDeleteApiView(WebApiView):
     """
@@ -279,5 +286,5 @@ class WebDeleteApiView(WebApiView):
             return {"status":"success"}
         except ObjectDoesNotExist:
             return {"status":"fail", "reason":"requested object does not exist"}
-        except:
-            return {"status":"fail", "reason":"server error"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}

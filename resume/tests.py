@@ -110,6 +110,15 @@ class APITestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
         
+    def testexcept(self):    
+        self.client.login(username='sawhigh', password='password')
+        contact = self.user_contact
+        data=json.dumps({ 'link':'http://google.com',"aaa":"bbb"})
+        response = self.client.post(reverse("usercontact_update", args=[contact.id]), data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        print response
+        self.assertContains(response, "fail")
+                
     def testupload(self):   
         data = {'avatar': self.get_image_file()}     
         self.client.login(username='sawhigh', password='password')
