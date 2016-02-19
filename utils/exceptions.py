@@ -1,4 +1,4 @@
-class MethonNotDefineError(Exception):
+class MethodNotDefineError(Exception):
     pass
 
 class JsonParseError(Exception):
