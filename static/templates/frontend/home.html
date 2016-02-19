@@ -5,14 +5,22 @@
 	              <table class="table">
 	                  <thead>
 	                      <tr>
-	                      	<th>Name</th>
-	                      	<th>Detail</th>
+	                      	<th>姓名</th>
+	                      	<th>职位</th>
+	                      	<th>详情</th>
 	                      </tr>
 	                  </thead>
 	                  <tbody>
-	              	<tr ng-repeat="userList in userLists">
-	              		<td>{{userList.profile_name}}</td>
-	              		<td><a href="#/resume/{{userList.id}}"><i class="fa fa-eye fa-2x"></i></a></td>      
+	              	<!-- <tr ng-repeat="userList in userLists"> -->
+	              	<tr>
+	              		<td>劳东明</td>
+	              		<td>python后端</td>
+	              		<td><a href="#/resume/1"><i class="fa fa-eye fa-2x"></i></a></td>      
+	              	</tr>
+	              	<tr>
+	              		<td>梁嘉勇</td>
+	              		<td>web前端</td>
+	              		<td><a href="#/resume/2"><i class="fa fa-eye fa-2x"></i></a></td>      
 	              	</tr>
 	              	</tbody>
                               </table>  
