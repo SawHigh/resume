@@ -86,14 +86,16 @@ class WebListApiView(WebApiView):
     def sort_list(self, request):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-        try:
+#         try:
+        if self.query(request):
             query_set = self.model.objects.filter(**self.query(request))
-        except:
-            raise ModelNeededError('query condition does not match model fields')       
+        else:
+            query_set = self.model.objects.all()
+#         except:
+#             raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
             return query_set.order_by("-%s" % request.GET['sort'])
-        else:
-            return query_set
+        return query_set
     
     def get_fields(self):  
         if not self.fields:
