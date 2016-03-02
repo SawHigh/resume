@@ -66,7 +66,7 @@
   			                        <div class="panel-body">
                                                      {{project.description}}
                                                      </div>
-                                                 <div class="panel-footer"><a href="{{project.link}}" class="btn btn-primary btn-sm" ng-disabled="{{project.link == 'None' }}"><i class="fa fa-eye"></i>预览</a><a href="{{project.source_code}}" class="btn btn-primary btn-sm" ng-disabled="{{project.source_code == 'None'}}"><i class="fa fa-github"></i>源码</a></div>
+                                                 <div class="panel-footer"><a href="{{project.link}}" class="btn btn-primary btn-sm" ng-hide="{{project.link == 'None' }}"><i class="fa fa-eye"></i>预览</a><a href="{{project.source_code}}" class="btn btn-primary btn-sm" ng-hide="{{project.source_code == 'None'}}"><i class="fa fa-github"></i>源码</a></div>
                                                 </div>
                                             </div>
                                      </div>  
