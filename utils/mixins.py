@@ -31,7 +31,7 @@ class OwnerPassMixin(object):
         return False
     
 class CurrentUserMixin(object):
-    def query(self, request, *args, **kwargs):
+    def query(self, request):
         self.query_condiction.update({"user":request.user})
         return self.query_condiction
 

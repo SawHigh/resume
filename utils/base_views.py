@@ -3,11 +3,11 @@ from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied, ValidationError,\
-    ObjectDoesNotExist
+    ObjectDoesNotExist, FieldError
 from django.middleware.csrf import rotate_token
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .exceptions import MethonNotDefineError, JsonParseError, ModelNeededError
+from .exceptions import MethodNotDefineError, JsonParseError, ModelNeededError
 from django.shortcuts import get_object_or_404
 
 class WebApiView(View):
@@ -23,7 +23,7 @@ class WebApiView(View):
         override this method and
         return True/False
         """
-        raise MethonNotDefineError("Override the user_pass_test method first")
+        raise MethodNotDefineError("Override the user_pass_test method first")
         
     def dispatch(self, request, *args, **kwargs):
         if not self.user_pass_test(request):
@@ -42,14 +42,14 @@ class WebApiView(View):
         override this method 
         and return a dictionary
         """
-        raise MethonNotDefineError("Override the do_get method first")
+        raise MethodNotDefineError("Override the do_get method first")
     
     def do_post(self, request):
         """
         override this method 
         and return a dictionary
         """
-        raise MethonNotDefineError("Override the do_post method first")
+        raise MethodNotDefineError("Override the do_post method first")
     
     def get(self, request, *args, **kwargs):
         return HttpResponse(json.dumps(self.do_get(request),ensure_ascii=False), content_type="application/json; charset=utf-8")
@@ -86,14 +86,17 @@ class WebListApiView(WebApiView):
     def sort_list(self, request):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-        try:
-            query_set = self.model.objects.filter(**self.query(request))
-        except:
-            raise ModelNeededError('query condition does not match model fields')       
+#         
+        if not self.query(request):
+            query_set = self.model.objects.all()
+        else:
+            try:
+                query_set = self.model.objects.filter(**self.query(request))
+            except FieldError:
+                raise ModelNeededError('query condition does not match model fields')       
         if 'sort' in request.GET and request.GET['sort']:
             return query_set.order_by("-%s" % request.GET['sort'])
-        else:
-            return query_set
+        return query_set
     
     def get_fields(self):  
         if not self.fields:
@@ -139,8 +142,11 @@ class WebListApiView(WebApiView):
             return items
         
     def do_get(self, request, *args, **kwargs):
-        return {'status':'success','data':self.the_page(request)}
-            
+        try:
+            return {'status':'success','data':self.the_page(request)}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
+        
 class WebDetailApiView(SingleObjectMixin, WebApiView):
     """
     必须参数：
@@ -172,14 +178,17 @@ class WebDetailApiView(SingleObjectMixin, WebApiView):
     def do_get(self, request, *args, **kwargs):
         if not self.model:
             raise ModelNeededError('Pass Me A Fucking Model')
-        obj = self.get_object()
-        data = {}
-        for i in self.get_fields():
-            if type(i) == list:
-                data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
-            else:   
-                data.update({i:getattr(obj, i)})
-        return {'status':'success','data':data}
+        try:
+            obj = self.get_object()
+            data = {}
+            for i in self.get_fields():
+                if type(i) == list:
+                    data.update({i[0]:reduce(lambda x, y:getattr(x, y), [obj].extend(i))})
+                else:   
+                    data.update({i:getattr(obj, i)})
+            return {'status':'success','data':data}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
     
 class WebCreateApiView(WebApiView):  
     """
@@ -218,8 +227,8 @@ class WebCreateApiView(WebApiView):
             i = self.model.objects.create(**dic)
             i.save()
             return {"status":"success"}
-        except:
-            return {"status":"fail", "reason":"invalid struture2"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
         
 class WebUpdateApiView(WebApiView):
     """
@@ -241,15 +250,18 @@ class WebUpdateApiView(WebApiView):
             raise ModelNeededError('Pass Me A Fucking Model')    
         try:
             dic = self.parse(request)
-            dic.update(self.extend_dic)
-            if "encoding" in dic:
-                del dic["encoding"]
-            pk = self.kwargs.get(self.pk_url_kwarg)
-            query_set = self.model.objects.filter(pk=pk)
+        except JsonParseError:
+            return {"status":"fail", "reason":"posted data is not json"}
+        dic.update(self.extend_dic)
+        if "encoding" in dic:
+            del dic["encoding"]
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        query_set = self.model.objects.filter(pk=pk)
+        try:
             query_set.update(**dic)
             return {"status":"success"}
-        except:
-            return {"status":"fail", "reason":"invalid struture2"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
         
 class WebDeleteApiView(WebApiView):
     """
@@ -272,5 +284,7 @@ class WebDeleteApiView(WebApiView):
             obj = get_object_or_404(self.model, pk=pk)
             obj.delete()
             return {"status":"success"}
-        except:
-            return {"status":"server error"}
+        except ObjectDoesNotExist:
+            return {"status":"fail", "reason":"requested object does not exist"}
+        except Exception,e:
+            return {'status':'fail','reason':str(e)}
