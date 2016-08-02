@@ -1,19 +1,29 @@
+# _*_ coding:utf-8 _*_
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .exceptions import ParamError, ModelNeededError, FormNeededError
 from PIL import Image
 
 class ManagerApiMixin(object):
+    """
+    login required.
+    """
     def user_pass_test(self, request):
         if request.user.is_authenticated():
             return True
         return False
         
 class CommonApiMixin(object):
+    """
+    login not required.
+    """
     def user_pass_test(self, request):
         return True
     
 class QueryFromUrlMixin(object):
+    """
+    get user form pk argument in url.
+    """
     def query(self, request):
         try:
             pk = self.kwargs.get('pk')
@@ -23,6 +33,9 @@ class QueryFromUrlMixin(object):
             raise ParamError("There should be a pk in url")
         
 class OwnerPassMixin(object):
+    """
+    one can only modify the object he owns. 
+    """
     def user_pass_test(self, request):
         pk = self.kwargs.get(self.pk_url_kwarg)
         obj = get_object_or_404(self.model, pk=pk)
@@ -31,11 +44,17 @@ class OwnerPassMixin(object):
         return False
     
 class CurrentUserMixin(object):
+    """
+    append current user to query conditions.
+    """
     def query(self, request):
         self.query_condiction.update({"user":request.user})
         return self.query_condiction
 
 class GetOwnerMixin(object):  
+    """
+    set current user as the owner of current  object(field name: 'user').
+    """
     def extend_data(self, request):
         return {"user":request.user}
     

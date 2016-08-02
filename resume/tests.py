@@ -116,7 +116,6 @@ class APITestCase(TestCase):
         data=json.dumps({ 'link':'http://google.com',"aaa":"bbb"})
         response = self.client.post(reverse("usercontact_update", args=[contact.id]), data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        print response
         self.assertContains(response, "fail")
                 
     def testupload(self):   

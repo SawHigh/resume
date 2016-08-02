@@ -64,7 +64,7 @@ class WebListApiView(WebApiView):
     paginate:是否分页，默认False
     page:每页显示条目数，默认0，即不分页返回全部
     model:查询模型，必须提供
-    query_condition：查询条件，字典，不提供则不筛选返回全部
+    query_condition：筛选条件，字典，不提供则不筛选返回全部
     method:GET
     fields:列表,列举查询的字段名,若查询外键传入列表，依次列举属性 不传入则返回所有字段值
     
@@ -108,8 +108,6 @@ class WebListApiView(WebApiView):
         for i in self.sort_list(request):
             dic = {}
             for j in self.get_fields():
-        
-#                 try:
                 if type(j) == list:
                     a = [i]
                     a.extend(j)
@@ -119,12 +117,9 @@ class WebListApiView(WebApiView):
                         pass
                 else:
                     dic.update({j:unicode(getattr(i, j))}, encoding='utf-8')
-#                 except:
-#                     raise ModelNeededError("Model %s May Have Not Field %s" % (self.model.__name__, j))
             data.append(dic)
         return data
-                
-    
+   
     def the_page(self, request):
         if not self.paginate:
             return self.construct_data(request)
